@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-o&*)zv-e=uhn=#4yi+_$f(m$ouh#r)-fzdi1lb#=3j_0t_ijoz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -131,3 +131,11 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# # For Vercel Serverless Deployment
+# import os
+# if os.getenv('VERCEL'):
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#     STATIC_URL = '/static/'
+#     # Vercel handles media differently, usually we skip local media in serverless
+#     MEDIA_ROOT = '/tmp/media'
