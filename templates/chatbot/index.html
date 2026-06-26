@@ -130,7 +130,7 @@
   .typing span:nth-child(3){animation-delay:.4s;}
   @keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0);}40%{opacity:1;transform:translateY(-3px);}}
 
-  .chat-input-wrap{border-top:1px solid var(--border);padding:14px 20px;}
+  .chat-input-wrap{padding:14px 20px;}
   .attach-preview{
     display:flex;align-items:center;gap:10px;
     background:var(--panel-2);border:1px solid var(--border);
@@ -151,11 +151,19 @@
   .msg-attachment span{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .chat-input{
     display:flex;align-items:center;gap:10px;
-    background:var(--panel-2);border:1px solid var(--border);
-    border-radius:12px;padding:6px 8px 6px 16px;
+    background:#0e120d;border:1px solid var(--green-dim);
+    border-radius:10px;padding:6px 8px 6px 16px;
+    transition: border-color .15s, background .15s;
+  }
+  .chat-input:hover{
+    background:#10160e;
   }
   .chat-input input{
     flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;padding:10px 0;
+    -webkit-appearance:none;appearance:none;box-shadow:none;
+  }
+  .chat-input input:focus, .chat-input input:focus-visible{
+    outline:none;box-shadow:none;
   }
   .chat-input input::placeholder{color:var(--muted);}
   .icon-btn{width:34px;height:34px;border-radius:50%;background:transparent;color:var(--muted);
@@ -211,9 +219,7 @@
           <h3>👋 Hi Karthik!</h3>
           <p>Welcome to Spinix! I can help you with betting, games, offers, rules, deposits and more. How can I assist you today?</p>
         </div>
-        <div class="welcome-bot">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#06250f" stroke-width="2"><circle cx="12" cy="13" r="6"/><path d="M12 7V4M9 13h.01M15 13h.01M9 16h6"/></svg>
-        </div>
+       
       </div>
 
       <div class="popular-card">
