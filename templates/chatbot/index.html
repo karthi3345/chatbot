@@ -139,10 +139,22 @@
   .attach-preview img{width:34px;height:34px;border-radius:6px;object-fit:cover;flex:none;}
   .attach-preview .file-ic{width:34px;height:34px;border-radius:6px;background:rgba(43,211,92,.15);
     color:var(--green-bright);display:flex;align-items:center;justify-content:center;flex:none;}
-  .attach-preview .file-name{font-size:12.5px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .attach-preview .file-info{flex:1;overflow:hidden;display:flex;flex-direction:column;gap:2px;min-width:0;}
+  .attach-preview .file-name{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .attach-preview .ocr-status{font-size:11px;color:var(--green-bright);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .attach-preview .ocr-status.dim{color:var(--muted);}
   .attach-preview .file-remove{width:24px;height:24px;border-radius:50%;background:transparent;color:var(--muted);
     display:flex;align-items:center;justify-content:center;flex:none;}
   .attach-preview .file-remove:hover{color:var(--danger);}
+  .icon-btn.listening{
+    color:#ff5d5d;background:rgba(255,93,93,.15);
+    animation: micPulse 1.2s infinite;
+  }
+  @keyframes micPulse{
+    0%{box-shadow:0 0 0 0 rgba(255,93,93,.4);}
+    70%{box-shadow:0 0 0 9px rgba(255,93,93,0);}
+    100%{box-shadow:0 0 0 0 rgba(255,93,93,0);}
+  }
   .msg-attachment{display:flex;align-items:center;gap:9px;background:rgba(0,0,0,.15);
     border-radius:9px;padding:7px 10px;margin-bottom:8px;}
   .msg-attachment img{width:32px;height:32px;border-radius:6px;object-fit:cover;flex:none;}
@@ -187,6 +199,48 @@
   .chat-body::-webkit-scrollbar{width:6px;}
   .chat-body::-webkit-scrollbar-thumb{background:#23291f;border-radius:6px;}
 
+
+  .bubble h1,
+.bubble h2,
+.bubble h3,
+.bubble h4 {
+    margin: 16px 0 10px;
+    font-weight: 700;
+}
+
+.bubble p {
+    margin: 10px 0;
+}
+
+.bubble ul,
+.bubble ol {
+    margin: 10px 0;
+    padding-left: 24px;
+}
+
+.bubble li {
+    margin: 6px 0;
+}
+
+.bubble strong {
+    font-weight: 400;
+}
+
+.bubble hr {
+    border: 0;
+    border-top: 1px solid #2d3529;
+    margin: 18px 0;
+}
+
+.user-message,
+.user-bubble {
+    background: #25D366;
+    color: #111827;
+    border-radius: 16px 16px 4px 16px;
+    padding: 10px 14px;
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+}
+
   @media (max-width: 600px){
     .page-wrap{padding:16px 12px 10px;}
     .chat-panel{height:90vh;max-height:90vh;}
@@ -219,7 +273,7 @@
           <h3>👋 Hi Karthik!</h3>
           <p>Welcome to Spinix! I can help you with betting, games, offers, rules, deposits and more. How can I assist you today?</p>
         </div>
-       
+        
       </div>
 
       <div class="popular-card">
@@ -242,7 +296,7 @@
         </button>
         <input type="file" id="fileInput" hidden accept="image/*,.pdf,.doc,.docx">
         <input type="text" id="chatInput" placeholder="Type your message...">
-        <button class="icon-btn">
+        <button class="icon-btn" id="micBtn" title="Speak your message">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v3"/></svg>
         </button>
         <button class="send-btn" id="sendBtn">
@@ -261,6 +315,7 @@
 </div>
 
 <div class="footer-note">18+ Play responsibly. Spinix supports responsible gaming. T&amp;C Apply.</div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
   const chatBody = document.getElementById('chatBody');
@@ -298,18 +353,24 @@
     scrollToBottom();
   }
 
-  function addBotMessage(text){
-    const typingRow = document.getElementById('typingRow');
+  function addBotMessage(text) {
+    const typingRow = document.getElementById("typingRow");
     if (typingRow) typingRow.remove();
-    const row = document.createElement('div');
-    row.className = 'msg-row bot';
-    row.dataset.role = 'assistant';
-    row.dataset.content = text;
-    row.innerHTML = `<div class="m-avatar">${botSvg}</div><div class="bubble">${text}<span class="ts">${timeNow()}</span></div>`;
+
+    const row = document.createElement("div");
+    row.className = "msg-row bot";
+
+    row.innerHTML = `
+        <div class="m-avatar">${botSvg}</div>
+        <div class="bubble">
+            ${marked.parse(text)}
+            <span class="ts">${timeNow()}</span>
+        </div>
+    `;
+
     chatBody.appendChild(row);
     scrollToBottom();
-  }
-
+}
   function renderAttachment(att, cls){
     const icon = att.isImage
       ? `<img src="${att.dataUrl}" alt="${att.name}">`
@@ -325,8 +386,11 @@
     addBotTyping();
     
     if (attachment && !q) {
+      const ocrNote = attachment.ocrText
+        ? ` I found this text in it: "${attachment.ocrText.slice(0,140)}${attachment.ocrText.length > 140 ? '…' : ''}"`
+        : '';
       setTimeout(() => addBotMessage(
-        `Got your file — <b>${attachment.name}</b>. For document help, please contact our support team. 💬`
+        `Got your file — <b>${attachment.name}</b>.${ocrNote} For document help, please contact our support team. 💬`
       ), 650);
       return;
     }
@@ -361,6 +425,64 @@
     btn.addEventListener('click', () => handleQuestion(btn.dataset.q));
   });
 
+  // ✅ Speech-to-text via Web Speech API
+  const micBtn = document.getElementById('micBtn');
+  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognizer = null;
+  let micBaseValue = '';
+  let micFinalTranscript = '';
+  let micTimeoutId = null;
+
+  function stopListeningUI(){
+    micBtn.classList.remove('listening');
+    chatInput.placeholder = 'Type your message...';
+    if(micTimeoutId){ clearTimeout(micTimeoutId); micTimeoutId = null; }
+  }
+
+  if (SpeechRecognitionAPI) {
+    recognizer = new SpeechRecognitionAPI();
+    recognizer.lang = 'en-IN';
+    recognizer.interimResults = true;   // show text live, instead of waiting till the end
+    recognizer.continuous = true;       // don't auto-cut-off on short pauses
+    recognizer.maxAlternatives = 1;
+
+    recognizer.onstart = () => {
+      micBaseValue = chatInput.value.trim();
+      micFinalTranscript = '';
+      chatInput.placeholder = '🎙️ Listening... speak now';
+      // safety auto-stop so it never feels "stuck"
+      micTimeoutId = setTimeout(() => { try{ recognizer.stop(); }catch(e){} }, 15000);
+    };
+
+    recognizer.onresult = (e) => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++){
+        const transcript = e.results[i][0].transcript;
+        if (e.results[i].isFinal) micFinalTranscript += transcript + ' ';
+        else interim += transcript;
+      }
+      chatInput.value = (micBaseValue ? micBaseValue + ' ' : '') + micFinalTranscript + interim;
+    };
+
+    recognizer.onend = stopListeningUI;
+    recognizer.onerror = stopListeningUI;
+  }
+
+  micBtn.addEventListener('click', () => {
+    if (!recognizer) {
+      addBotTyping();
+      setTimeout(() => addBotMessage("🎙️ Voice input isn't supported in this browser. Try Chrome on desktop or Android."), 400);
+      return;
+    }
+    if (micBtn.classList.contains('listening')) {
+      recognizer.stop();
+      stopListeningUI();
+    } else {
+      micBtn.classList.add('listening');
+      try{ recognizer.start(); }catch(e){ stopListeningUI(); }
+    }
+  });
+
   // File attachment handling
   let pendingAttachment = null;
   const attachBtn = document.getElementById('attachBtn');
@@ -375,17 +497,60 @@
     const isImage = file.type.startsWith('image/');
     const reader = new FileReader();
     reader.onload = (e) => {
-      pendingAttachment = { name: file.name, isImage, dataUrl: isImage ? e.target.result : null };
+      pendingAttachment = { name: file.name, isImage, dataUrl: isImage ? e.target.result : null, ocrText: null };
       attachPreview.style.display = 'flex';
       attachPreview.innerHTML = `
         ${isImage ? `<img src="${pendingAttachment.dataUrl}" alt="${file.name}">` : `<div class="file-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>`}
-        <span class="file-name">${file.name}</span>
+        <div class="file-info">
+          <span class="file-name">${file.name}</span>
+          ${isImage ? `<span class="ocr-status" id="ocrStatus">🔍 Reading text in image...</span>` : ``}
+        </div>
         <button class="file-remove" id="removeAttachBtn">✕</button>
       `;
       document.getElementById('removeAttachBtn').addEventListener('click', clearAttachment);
+      if(isImage) extractTextFromImage(file, document.getElementById('ocrStatus'));
     };
     if(isImage) reader.readAsDataURL(file); else reader.onload({target:{result:null}});
   });
+
+  // ✅ OCR: lazy-load Tesseract.js, then extract text from the attached image
+  let tesseractLoading = null;
+  function loadTesseract(){
+    if (window.Tesseract) return Promise.resolve();
+    if (tesseractLoading) return tesseractLoading;
+    tesseractLoading = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return tesseractLoading;
+  }
+
+  async function extractTextFromImage(file, statusEl){
+    if(!statusEl) return;
+    try{
+      await loadTesseract();
+      const { data: { text } } = await Tesseract.recognize(file, 'eng');
+      const clean = text.replace(/\s+/g, ' ').trim();
+      if(!document.body.contains(statusEl)) return; // attachment removed before OCR finished
+      if(clean){
+        statusEl.classList.remove('dim');
+        statusEl.textContent = `📝 "${clean.slice(0,60)}${clean.length > 60 ? '…' : ''}"`;
+        if(pendingAttachment) pendingAttachment.ocrText = clean;
+      } else {
+        statusEl.classList.add('dim');
+        statusEl.textContent = 'No readable text found in image';
+      }
+    } catch(err){
+      console.error('OCR error:', err);
+      if(document.body.contains(statusEl)){
+        statusEl.classList.add('dim');
+        statusEl.textContent = 'Could not read text from image';
+      }
+    }
+  }
 
   function clearAttachment(){
     pendingAttachment = null;
@@ -420,6 +585,8 @@
     if(typingRow) typingRow.remove();
     chatBody.scrollTop = 0;
   });
+
+  
 </script>
 </body>
 </html>
