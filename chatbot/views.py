@@ -35,8 +35,9 @@ SPRIBE_FILE=os.path.join(BASE_DIR,"chatbot","data","spribe.json")
 AVIATRIX_FILE=os.path.join(BASE_DIR,"chatbot","data","aviatrix.json")
 PIGABOOM_FILE=os.path.join(BASE_DIR,"chatbot","data","pigaboom.json")
 SPIN4WIN_FILE=os.path.join(BASE_DIR,"chatbot","data","1spin4win.json")
-TURBO_FILE=os.path.join(BASE_DIR,"chatbot","data","tubogames.json")
-SMARTSOFT_FILE=os.path.join(BASE_DIR,"chatbot","data","smartsoft.json")
+TURBO_FILE=os.path.join(BASE_DIR,"chatbot","data","turbogame.json")
+SMARTSOFT_FILE=os.path.join(BASE_DIR,"chatbot","data","smartsof.json")
+BGAMING_FILE=os.path.join(BASE_DIR,"chatbot","data","bgaming.json")
 # =====================================================
 # LOAD JSON DATABASES
 # =====================================================
@@ -63,10 +64,11 @@ SPRIBE_GAMES=load_json(SPRIBE_FILE,"spribe.json")
 AVIATRIX_GAMES=load_json(AVIATRIX_FILE,"aviatrix.json")
 PIGABOOM_GAMES=load_json(PIGABOOM_FILE,"pigaboom.json")
 SPIN4WIN_GAMES=load_json(SPRIBE_FILE,"1spin4win.json")
-TURBO_GAMES=load_json(TURBO_FILE,"turbogames.json")
-SMARTSOFT_GAMES=load_json(SMARTSOFT_FILE,"smartsoft.json")
+TURBO_GAMES=load_json(TURBO_FILE,"turbogame.json")
+SMARTSOFT_GAMES=load_json(SMARTSOFT_FILE,"smartsof.json")
+BGAMING_GAMES=load_json(BGAMING_FILE,"bgames.json")
 
-ALL_GAMES = MOJOS_GAMES + EVOLUTION_GAMES + BETONGAMES_GAMES + JACKTOP_GAMES + PGSOFT_GAMES + BGAMES_GAMES+BETGAMES_GAMES+WINMATCH_GAMES+ELCASINO_GAMES+TVBET_GAMES+KAGAMING_GAMES+SPRIBE_GAMES+AVIATRIX_GAMES+PIGABOOM_GAMES+SPIN4WIN_GAMES+SMARTSOFT_GAMES
+ALL_GAMES = MOJOS_GAMES + EVOLUTION_GAMES + BETONGAMES_GAMES + JACKTOP_GAMES + PGSOFT_GAMES + BGAMES_GAMES+BETGAMES_GAMES+WINMATCH_GAMES+ELCASINO_GAMES+TVBET_GAMES+KAGAMING_GAMES+SPRIBE_GAMES+AVIATRIX_GAMES+PIGABOOM_GAMES+SPIN4WIN_GAMES+SMARTSOFT_GAMES+TURBO_GAMES+BGAMING_GAMES
 
 print("=" * 60)
 print("✅ GAME DATABASE LOADED")
@@ -86,6 +88,8 @@ print(f"AVIATRIX: {len(AVIATRIX_GAMES)}")
 print(f"PIGABOOM: {len(PIGABOOM_GAMES)}")
 print(f"1SPIN4WIN: {len(SPIN4WIN_GAMES)}")
 print(f"SMARTSOFT: {len(SMARTSOFT_GAMES)}")
+print(f"TURBOGAMES: {len(TURBO_GAMES)}")
+print(f"BGAMING: {len(BGAMING_GAMES)}")
 print(f"TOTAL (with duplicates) : {len(ALL_GAMES)}")
 
 print("=" * 60)
