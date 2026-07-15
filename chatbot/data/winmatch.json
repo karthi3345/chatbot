@@ -1,0 +1,66 @@
+{
+  "Winmatch EZ Dealer Roulette": {
+    "game_name": "Winmatch EZ Dealer Roulette",
+    "provider": "Winmatch",
+    "description": "Winmatch EZ Dealer Roulette blends pre-recorded dealer footage with a certified random number generator to deliver a seamless table game experience. A cinematic virtual host guides each round, presenting spins on a dynamically animated roulette wheel within a highly polished studio environment.",
+    "what_makes_it_unique": [
+      "The game stands out by completely eliminating live broadcast latency and buffering. By instantly triggering pre-rendered host reactions based on digital outcomes, it ensures rapid game cycles and non-stop mobile availability, offering operators a high-velocity alternative to traditional live dealer streams."
+    ]
+  },
+  "Royal Roulette": {
+    "game_name": "Royal Roulette",
+    "provider": "Winmatch",
+    "description": "Royal Roulette brings an upscale, traditional casino aesthetic to digital screens. Players engage with a beautifully rendered roulette wheel and standard betting grid, designed to replicate the elite, high-roller atmosphere of premium brick-and-mortar casino floors with smooth animations and crisp audio design.",
+    "what_makes_it_unique": [
+      "The game sets itself apart by focusing on a majestic, distraction-free interface optimized for pure table strategy. By prioritizing clean layouts and swift wheel animations over complex bonus side-bets, it caters perfectly to traditional players who demand direct, classic gameplay alongside rapid bet-placement options across all devices."
+    ]
+  },
+  "Royal Andar Bahar": {
+    "game_name": "Royal Andar Bahar",
+    "provider": "Winmatch",
+    "description": "Royal Andar Bahar delivers a premium digital adaptation of the beloved traditional Indian card game. Set against an elegant, high-roller backdrop, a single card is dealt face-up as the joker, and subsequent cards are dealt alternately to the Andar (inside) and Bahar (outside) piles until a matching value appears to determine the winner.",
+    "what_makes_it_unique": [
+      "This title elevates the classic matching game with a majestic user interface built for lightning-fast mobile play. By combining a distraction-free layout with smooth, rapid card-dealing animations and intuitive betting options, it provides players with an upscale, high-frequency gaming experience optimized for continuous engagement."
+    ]
+  },
+  "Royal Bet on Teen Patti": {
+    "game_name": "Royal Bet on Teen Patti",
+    "provider": "Winmatch",
+    "description": "Royal Bet on Teen Patti brings a high-end, majestic aesthetic to India’s most iconic three-card card game. Moving away from traditional peer-to-peer formats, this live-style casino variant allows players to stream a beautifully presented table where they bet on the outcomes of active hands, aiming to back the strongest ranking card combination.",
+    "what_makes_it_unique": [
+      "The game stands out by replacing standard table player limits with an infinite-capacity betting model. Players can bypass complex bluffing strategies to focus entirely on dynamic side bets such as wagering on specific hand values, high-tier sequences, or card colors - creating a fast paced, multi-layered experience optimized for continuous mobile play."
+    ]
+  },
+  "Ultimate Andar Bahar": {
+    "game_name": "Ultimate Andar Bahar",
+    "provider": "Winmatch",
+    "description": "Ultimate Andar Bahar takes the classic Indian card game of pure chance and supercharges it with massive win potential. Played with a standard deck, the game follows the traditional flow where cards are dealt alternately to the Andar and Bahar positions until a card matches the initial joker value, all wrapped in a premium, high-energy studio environment.",
+    "what_makes_it_unique": [
+      "The game sets itself apart by introducing random, high-value multipliers to the betting spots before the cards are dealt. If a player backs a winning side or specific card combination that receives a multiplier, their payout is exponentially increased, transforming a simple, beloved pastime into a thrilling, high-volatility experience built for mobile play"
+    ]
+  },
+  "Royal Lobby": {
+    "game_name": "Royal Lobby",
+    "provider": "Winmatch",
+    "description": "Royal Lobby serves as the premium, centralized gateway connecting players to an entire suite of elite casino games. Featuring a high-end, regal aesthetic, this unified hub allows users to seamlessly browse, filter, and transition between various live-dealer tables, card games and lotteries within a single, polished user interface.",
+    "what_makes_it_unique": [
+      "The lobby stands out by acting as an intelligent navigation ecosystem rather than a basic menu. It prioritizes ultra fast loading times and real-time table status updates, allowing players to view active game flows, hot trends and jackpot values directly from the main screen before entering a room - maximizing cross-game discovery and user retention."
+    ]
+  },
+  "Royal Claw Roulette": {
+    "game_name": "Royal Claw Roulette",
+    "provider": "Winmatch",
+    "description": "Royal Claw Roulette infuses the classic casino table game with a distinct arcade-inspired visual aesthetic. Set within a premium digital environment, the game combines traditional European roulette rules and standard betting layouts with a uniquely styled wheel mechanics presentation, offering players an engaging twist on a familiar casino staple.",
+    "what_makes_it_unique": [
+      "The game sets itself apart by pairing tactical roulette wagering with an eye-catching, stylized user interface. Built for high-frequency mobile sessions, it eliminates unnecessary interface clutter to deliver immediate betting feedback, rapid round rotations, and smooth chip placements, providing a fresh alternative for players seeking a unique thematic variant."
+    ]
+  },
+  "Royal Ultimate Auto Roulette": {
+    "game_name": "Royal Ultimate Auto Roulette",
+    "provider": "Winmatch",
+    "description": "Royal Ultimate Auto Roulette by Winmatch delivers a fast-paced, high-definition live European roulette experience. Operating without a physical dealer, the game utilises an advanced, automated single-zero wheel to spin the ball, allowing players to place standard inside, outside, and neighbour bets while tracking live statistical data in real time.",
+    "what_makes_it_unique": [
+      "This version distinguishes itself with an elegant, regal-themed aesthetic designed for a premium casino atmosphere. By combining automated precision mechanics with low-latency streaming, it guarantees 100% transparent, rapid-fire round cycles, enabling action-oriented players to execute custom betting configurations and sophisticated strategies completely lag-free."
+    ]
+  }
+}

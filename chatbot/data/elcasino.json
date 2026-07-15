@@ -1,0 +1,96 @@
+{
+  "Roulette": {
+    "game_name": "Roulette",
+    "description": "Roulette by Elcasino is a live casino game using a spinning wheel with red, black, and a single green zero pocket. A live dealer launches the ball, and players bet on specific numbers, ranges, colours, or odd/even outcomes before it stops.",
+    "what_makes_it_unique": [
+      "This version introduces a unique four-chip betting configuration. Players must place exactly one chip on a 0-3 basket, a 12-15 split, number 26, and a 32-35 split, creating a highly structured wagering strategy."
+    ]
+  },
+  "El Casino Roulette x500": {
+    "game_name": "El Casino Roulette x500",
+    "description": "Elcasino Roulette x500 delivers an immersive, high-definition live European roulette experience broadcast directly from a premium studio. Operating with a professional wheel, it allows players to place classic inside, outside, and neighbour bets while tracking live statistical outcomes and interactive game metrics in real time.",
+    "what_makes_it_unique": [
+      "This version stands out by supercharging a traditional live table with explosive multiplier mechanics reaching up to 500x."
+    ]
+  },
+  "Teen Patti": {
+    "game_name": "Teen Patti",
+    "description": "Teen Patti by elcasino is a traditional Indian card game played with a standard 52-card deck.",
+    "what_makes_it_unique": [
+      "Features Pair+, 6 Cards side bets and a 50:1 Tie payout."
+    ]
+  },
+  "Andar Bahar": {
+    "game_name": "Andar Bahar",
+    "description": "Andar Bahar by elcasino is a popular Indian card game streamed live 24/7.",
+    "what_makes_it_unique": [
+      "Offers additional betting markets beyond standard wins."
+    ]
+  },
+
+
+
+  "Roulette x1001": {
+    "game_name": "Roulette x1001",
+    "description": "Roulette x1001 by ElCasino is an exciting roulette game featuring a standard 37-pocket wheel with a lone green zero. Players place traditional inside or outside bets before a dealer launches the ball to determine the winning random outcome.",
+    "what_makes_it_unique": [
+      "The game stands out by offering four customisable bonus levels. An RNG system assigns massive random multipliers ranging from x50 up to x5,000 onto up to seven random pockets per draw, significantly boosting standard straight-bet payouts."
+    ]
+  },
+  "Auto Roulette": {
+    "game_name": "Auto Roulette",
+    "description": "Auto Roulette by elcasino is a classic version of roulette featuring a single green zero pocket. Players place standard inside, outside, or neighbour bets on colours, ranges, or specific numbers to determine their payouts.",
+    "what_makes_it_unique": [
+      "The game is completely autonomous and operates without a live dealer. A special mechanism automatically launches the ball after each betting round, delivering a fast, efficient, and dynamic gameplay experience with zero lag."
+    ]
+  },
+  "VIP Roulette": {
+    "game_name": "VIP Roulette",
+    "description": "VIP Roulette by elcasino is an elite version of the world-famous classic game built for gambling connoisseurs. Played on a 37-pocket wheel with a single green zero, players predict where the ball will land by placing colour, range, or specific number bets.",
+    "what_makes_it_unique": [
+      "This version sets itself apart by tailoring the experience specifically for premium players. It features significantly higher betting limits that allow users to win big, all wrapped in an exclusive, high-roller atmosphere that matches a luxury aesthetic."
+    ]
+  },
+  "Wheel Roulette": {
+    "game_name": "Wheel Roulette",
+    "description": "Wheel Roulette by elcasino is a fast-paced live game featuring an elegant design. It accommodates 38 sectors, including single and double zero pockets, supporting classic inside, outside, and neighbour bets. Players simply predict the colour or number sector where the pointer will land.",
+    "what_makes_it_unique": [
+      "This title blends the thrilling gameplay mechanics of a classic Wheel of Fortune with standard American roulette rules. Instead of using a traditional roulette grid and ball, a live host spins a large standalone vertical wheel clockwise to determine outcomes."
+    ]
+  },
+  "Wheel x777": {
+    "game_name": "Wheel x777",
+    "description": "Wheel x777 by Elcasino is an epic live game that fuses traditional American roulette markets with a single, host-based vertical wheel. Featuring 38 standard sectors, players place standard inside, outside, or racetrack neighbour bets as a live dealer spins the wheel clockwise to determine the winning colour and number.",
+    "what_makes_it_unique": [
+      "The game's standout element is its high-paying bonus structure. In every round, two to seven random sectors are dynamically assigned massive win multipliers ranging from x50 up to x777. This turns straightforward inside bets into potentially astronomical payouts, supercharging the classic wheel layout."
+    ]
+  },
+  "Candyball Roulette": {
+    "game_name": "Candyball Roulette",
+    "description": "Candyball Roulette by elcasino is a fast-paced, simple live game that brings classic European roulette betting structures to a lottery format. Players can place familiar inside, outside, and racetrack neighbour bets. A lottery machine then mixes and randomly draws a single ball to determine the winning outcome.",
+    "what_makes_it_unique": [
+      "Unlike traditional roulette variants that rely on a physical wheel and a spinning ball, this title relies entirely on a lottery machine mechanism containing 37 numbered balls. It perfectly merges the thrill of traditional roulette table layouts with the casual, rapid-fire gameplay of a lottery draw."
+    ]
+  },
+  "BlackJack Casino": {
+    "game_name": "BlackJack Casino",
+    "description": "Blackjack Casino by elcasino is a live card game where players compete directly against the dealer using standard 52-card decks. The core objective is to form a hand total higher than the dealer's without exceeding 21, using classic options such as Hit, Stand, Double, Split, and Insurance.",
+    "what_makes_it_unique": [
+      "The game's standout feature is its infinite scalability, allowing an unlimited number of players to participate simultaneously in the exact same round. Everyone shares the initial community deal but makes independent gameplay decisions, ensuring a seat is always available without having to wait for an open table."
+    ]
+  },
+  "Elcasino Lobby": {
+    "game_name": "Elcasino Lobby",
+    "description": "Elcasino Lobby provides a centralised, high-definition live gaming hub where players can seamlessly access multiple premium table games. Hosted by professional dealers, it allows users to instantly browse active tables, track live betting statistics, and choose their preferred dealer for games like roulette, blackjack, and baccarat.",
+    "what_makes_it_unique": [
+      "This lobby stands out as an all-in-one, low-latency ecosystem designed for frictionless navigation between different live rooms. Instead of forcing players to exit to a generic menu, its integrated digital dashboard offers instant multi-game switching and real-time seat availability updates without experiencing any interface lag."
+    ]
+  },
+  "Chicken Live": {
+    "game_name": "Chicken Live",
+    "description": "Chicken Live by Elcasino is a live-dealer crash game in which players guide a chicken through a series of multiplier hatches. To win, the player's drawn card must beat the dealer's. Players face a continuous choice: withdraw their current accumulated earnings or risk them to reach higher multipliers.",
+    "what_makes_it_unique": [
+      "The game uniquely merges live high-card table dynamics with crash-style mechanics. Instead of a digital graph, progression is decided by physical card draws. Additionally, players have the strategic flexibility to entirely skip rounds while completely preserving their current hatch position."
+    ]
+  }
+}

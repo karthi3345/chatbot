@@ -1,0 +1,79 @@
+{
+  "Aviator": {
+    "game_name": "Aviator",
+    "description": "Aviator is a high-frequency, multiplayer crash game that completely reinvents online gambling with an increasing multiplier curve. It challenges players to cash out before the plane flies away and the round ends.",
+    "what_makes_it_unique": [
+      "Aviator transforms solo gambling into a social experience with interactive live chat, visible live odds, and daily, monthly, and all-time leaderboards. Its lightweight design ensures smooth gameplay even on budget devices and low-bandwidth networks."
+    ]
+  },
+  "Dice": {
+    "game_name": "Dice",
+    "description": "Dice is a fast wagering casual game where players predict whether a random roll will land higher or lower than a chosen target number for instant payouts.",
+    "what_makes_it_unique": [
+      "Dice gives players complete control over risk by allowing precise adjustment of win probabilities. It also includes advanced Autoplay, Live Chat, and a real-time live stakes viewer."
+    ]
+  },
+  "Plinko": {
+    "game_name": "Plinko",
+    "description": "Plinko is a fast-paced casual game where players drop discs down a pegboard, watching them bounce toward multiplier prizes at the bottom.",
+    "what_makes_it_unique": [
+      "Plinko lets players customize the number of pins to control the game's difficulty and risk level. It also features Autoplay, Live Chat, and live odds in a lightweight design."
+    ]
+  },
+  "Goal": {
+    "game_name": "Goal",
+    "description": "Goal is a soccer-themed casual game where players move across rows of tiles, choosing the safe path while avoiding hidden bombs to increase their payout.",
+    "what_makes_it_unique": [
+      "Goal allows players to cash out after any successful step or continue for higher multipliers. It features Autoplay, live chat, and real-time odds while running smoothly on low-end devices."
+    ]
+  },
+  "Hi-Lo": {
+    "game_name": "Hi-Lo",
+    "description": "Hi-Lo is a quick card game where players predict whether the next card will be higher, lower, or equal in value to the current card.",
+    "what_makes_it_unique": [
+      "Hi-Lo offers three possible next-card options instead of one, giving players more strategic choices. Players can cash out after every correct prediction while following global betting activity."
+    ]
+  },
+  "Mines": {
+    "game_name": "Mines",
+    "description": "Mines is a fast-paced grid game where players uncover stars while avoiding hidden mines. Every safe selection increases the payout multiplier.",
+    "what_makes_it_unique": [
+      "Mines gives players full control over risk by allowing them to cash out after any successful pick or continue for bigger rewards. It also includes Autoplay, live chat, and live odds."
+    ]
+  },
+  "Keno": {
+    "game_name": "Keno",
+    "description": "Keno is a multiplayer lottery game where players choose lucky numbers and win by matching them with the drawn results.",
+    "what_makes_it_unique": [
+      "Keno offers both Classic Mode and Last Ball Mode, providing two different gameplay styles. It also features live chat and real-time live odds in a lightweight platform."
+    ]
+  },
+  "Mini Roulette": {
+    "game_name": "Mini Roulette",
+    "description": "Mini Roulette is a simplified version of classic roulette featuring a compact 12-number wheel for faster betting rounds and instant gameplay.",
+    "what_makes_it_unique": [
+      "Mini Roulette keeps the core roulette betting options while using a streamlined 12-number layout. Its clean interface and warm design make it highly accessible for quick sessions."
+    ]
+  },
+  "Hotline": {
+    "game_name": "Hotline",
+    "description": "Hotline is a high-speed, esports-inspired casino game designed for rapid wagering and continuous action with payout potential up to 1,056x.",
+    "what_makes_it_unique": [
+      "Hotline combines competitive gaming intensity with casino mechanics and features a highly customizable Autoplay engine for advanced betting strategies."
+    ]
+  },
+  "Balloon": {
+    "game_name": "Balloon",
+    "description": "Balloon is a single-player crash game where players inflate a balloon while the payout multiplier increases until it bursts.",
+    "what_makes_it_unique": [
+      "Balloon allows players to pause and decide when to cash out before the balloon pops. It includes Auto Play, free bet modules, and is optimized for low-bandwidth devices."
+    ]
+  },
+  "Pilot Chicken": {
+    "game_name": "Pilot Chicken",
+    "description": "Pilot Chicken is a crash game where players watch a multiplier grow over time and must cash out before the inevitable crash to secure their winnings.",
+    "what_makes_it_unique": [
+      "Pilot Chicken focuses on split-second decision making, giving players full control over balancing risk and reward as multipliers climb in real time."
+    ]
+  }
+}

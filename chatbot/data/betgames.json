@@ -1,0 +1,226 @@
+{
+  "Lucky 7": {
+    "game_name": "Lucky 7",
+    "provider": "BetGames",
+    "description": "Lucky 7 by BetGames is an exciting lottery-style number game where players bet on the outcome of seven drawn numbers. The game offers simple rules, fast-paced rounds, and attractive payout potential, making it easy for both beginners and experienced players to understand and enjoy.",
+    "what_makes_it_unique": [
+      "Lucky 7 features a straightforward lottery format with seven numbers drawn each round and offers medium volatility for balanced winning opportunities. The game is designed to be accessible with quick results and decent payout potential, ideal for players seeking simple number prediction games with regular wins."
+    ]
+  },
+  "Lucky 5": {
+    "game_name": "Lucky 5",
+    "provider": "BetGames",
+    "description": "Lucky 5 by BetGames is a fast and straightforward lottery game where players predict five drawn numbers. The simplified format makes it very approachable while still offering exciting winning possibilities in short rounds.",
+    "what_makes_it_unique": [
+      "Lucky 5 provides a lower number count for easier prediction and faster gameplay with medium volatility. It is particularly suitable for beginners who want quick sessions and reasonable winning chances without complex rules."
+    ]
+  },
+  "Baccarat": {
+    "game_name": "Baccarat",
+    "provider": "BetGames",
+    "description": "Baccarat by BetGames offers a simplified lottery-style version of the classic high-stakes card game. Players can easily bet on Player, Banker, or Tie outcomes with clear rules and fast resolution.",
+    "what_makes_it_unique": [
+      "Baccarat maintains the core excitement of traditional baccarat with medium volatility and straightforward betting options. The game is easier to understand than live dealer versions while still providing good winning potential on favored outcomes."
+    ]
+  },
+  "Wheel Of Fortune": {
+    "game_name": "Wheel Of Fortune",
+    "provider": "BetGames",
+    "description": "Wheel of Fortune by BetGames features a classic spinning wheel divided into multiple segments with different multipliers and payouts. Players bet on where the wheel will stop in this visually engaging and straightforward game.",
+    "what_makes_it_unique": [
+      "Wheel of Fortune offers medium volatility with varied payout segments that provide regular smaller wins alongside occasional bigger multipliers. The game is very easy to understand and visually appealing, making it suitable for casual players seeking fun wheel-based entertainment."
+    ]
+  },
+  "War Of Bets": {
+    "game_name": "War Of Bets",
+    "provider": "BetGames",
+    "description": "War of Bets by BetGames is a simple high-card comparison game where players bet on which side wins the war. The straightforward head-to-head format creates quick and exciting rounds.",
+    "what_makes_it_unique": [
+      "War of Bets features low to medium volatility with clear 50/50 style outcomes. The game is extremely easy to learn and provides frequent results, making it ideal for players who want quick decisions and regular winning opportunities."
+    ]
+  },
+  "Lucky 6": {
+    "game_name": "Lucky 6",
+    "provider": "BetGames",
+    "description": "Lucky 6 by BetGames is a popular lottery game where players predict six drawn numbers. The balanced number count offers good winning potential with simple and engaging gameplay.",
+    "what_makes_it_unique": [
+      "Lucky 6 provides medium volatility with a six-number format that strikes a nice balance between difficulty and winning chances. The game is accessible yet rewarding, perfect for players looking for decent frequency of wins in lottery-style games."
+    ]
+  },
+  "Dice Duel": {
+    "game_name": "Dice Duel",
+    "provider": "BetGames",
+    "description": "Dice Duel by BetGames pits two sets of dice against each other in an exciting head-to-head competition. Players simply bet on which side will roll the higher total in this dynamic dice game.",
+    "what_makes_it_unique": [
+      "Dice Duel offers medium volatility with straightforward dice comparison mechanics. The game is very easy to understand and provides frequent rounds with clear outcomes, making it suitable for players who enjoy simple dice-based entertainment."
+    ]
+  },
+  "6+ Poker": {
+    "game_name": "6+ Poker",
+    "provider": "BetGames",
+    "description": "6+ Poker by BetGames is a short-deck poker variant that creates more action and exciting hand possibilities. The modified deck leads to more frequent strong hands and dynamic gameplay.",
+    "what_makes_it_unique": [
+      "6+ Poker features higher volatility than traditional poker due to the short deck, with more premium hands appearing frequently. The game offers increased excitement and bigger win potential while remaining relatively easy to follow for poker enthusiasts."
+    ]
+  },
+  "Classic Wheel": {
+    "game_name": "Classic Wheel",
+    "provider": "BetGames",
+    "description": "Classic Wheel by BetGames (RNG) delivers the traditional wheel-spinning casino experience with authentic feel and multiple betting segments. Players can enjoy straightforward wheel betting with reliable outcomes.",
+    "what_makes_it_unique": [
+      "Classic Wheel provides medium volatility with a variety of payout segments for regular smaller wins and occasional larger rewards. The game is very user-friendly and visually clear, making it accessible for all experience levels."
+    ]
+  },
+  "BetGames Lobby": {
+    "game_name": "BetGames Lobby",
+    "provider": "BetGames",
+    "description": "Information not available.",
+    "what_makes_it_unique": [
+      "Information not available."
+    ]
+  },
+  "Instant Lucky 7": {
+    "game_name": "Instant Lucky 7",
+    "provider": "BetGames",
+    "description": "Instant Lucky 7 by BetGames offers the popular lottery game in a fast and convenient instant-play format. Players can enjoy quick rounds of the classic seven-number prediction game.",
+    "what_makes_it_unique": [
+      "Instant Lucky 7 maintains the same medium volatility as the standard version but with accelerated gameplay. It is perfect for players who want quick sessions with the familiar Lucky 7 mechanics and decent winning frequency."
+    ]
+  },
+  "skyward": {
+    "game_name": "skyward",
+    "provider": "BetGames",
+    "description": "Skyward by BetGames takes players on an upward journey with increasing multipliers and strategic cash-out decisions. Watch the multiplier climb higher as you decide when to secure your winnings.",
+    "what_makes_it_unique": [
+      "Skyward features high volatility typical of crash-style games with significant multiplier potential. The game requires good timing and risk management but offers substantial reward opportunities for successful players."
+    ]
+  },
+  "Live Roulette": {
+    "game_name": "Live Roulette",
+    "provider": "BetGames",
+    "description": "Live Roulette by BetGames brings the classic casino wheel to life with professional dealers and real-time streaming. Experience authentic roulette gameplay with live interaction and high-quality presentation.",
+    "what_makes_it_unique": [
+      "Live Roulette offers standard roulette volatility with the excitement of live dealer interaction. The game is suitable for players who enjoy traditional roulette with the added immersion of live streaming."
+    ]
+  },
+  "Classic Roulette": {
+    "game_name": "Classic Roulette",
+    "provider": "BetGames",
+    "description": "Classic Roulette by BetGames delivers the traditional single-zero European roulette experience with clean design and reliable mechanics. The game focuses on authentic gameplay with all standard betting options.",
+    "what_makes_it_unique": [
+      "Classic Roulette features standard European roulette volatility with better player odds than American versions. The game is very accessible and provides consistent, fair gameplay for both beginners and experienced roulette players."
+    ]
+  },
+  "Lucky Kicks": {
+    "game_name": "Lucky Kicks",
+    "provider": "BetGames",
+    "description": "Lucky Kicks by BetGames brings football excitement with penalty kick mechanics and sports elements. Predict kick outcomes and enjoy the thrill of the beautiful game in this engaging sports-themed title.",
+    "what_makes_it_unique": [
+      "Lucky Kicks offers medium volatility with football penalty-style gameplay that is easy to understand for sports fans. The game provides frequent rounds and decent winning potential with a fun sports atmosphere."
+    ]
+  },
+  "Flash Roulette": {
+    "game_name": "Flash Roulette",
+    "provider": "BetGames",
+    "description": "Flash Roulette by BetGames offers a fast-paced version of classic roulette with accelerated rounds and smooth gameplay. Enjoy quicker spins while maintaining all traditional betting options and excitement.",
+    "what_makes_it_unique": [
+      "Flash Roulette provides standard roulette volatility but with significantly faster rounds for higher game volume. It is ideal for experienced players who want more action and quicker results."
+    ]
+  },
+  "Football Grid": {
+    "game_name": "Football Grid",
+    "provider": "BetGames",
+    "description": "(Not listed on Khelostar)",
+    "what_makes_it_unique": [
+      "(Not listed on Khelostar)"
+    ]
+  },
+  "Crypt of Giza": {
+    "game_name": "Crypt of Giza",
+    "provider": "BGames",
+    "description": "Crypt of Giza by Bgames is an ancient Egypt-themed slot game that transports players into a high-stakes adventure exploring historic pyramids. Built with a 6x3 game board layout and 10 fixed paylines, the title features a very high volatility rating and is fully optimised for seamless gameplay across both mobile and desktop devices.",
+    "what_makes_it_unique": [
+      "Crypt of Giza stands out with a massive 10,000x max multiplier and a very high volatility 6x3 grid. It features Multiplier Scatters, a Buy Bonus, and progressive multipliers with expanding symbols during Free Spins. Operators can also customize branding and choose variable RTP options."
+    ]
+  },
+  "Starzle": {
+    "game_name": "Starzle",
+    "provider": "BetGames",
+    "description": "(Not listed on Khelostar)",
+    "what_makes_it_unique": [
+      "(Not listed on Khelostar)"
+    ]
+  },
+  "Bet On Poker": {
+    "game_name": "Bet On Poker",
+    "provider": "BetGames",
+    "description": "Bet on Poker by BetGames simplifies poker into an accessible lottery-style betting format. Players can wager on various poker-related outcomes without needing deep poker knowledge.",
+    "what_makes_it_unique": [
+      "Bet on Poker offers medium volatility with simplified poker elements that are easy to understand. The game makes poker accessible to a wider audience while maintaining the excitement of card-based results."
+    ]
+  },
+  "Bet On Baccarat": {
+    "game_name": "Bet On Baccarat",
+    "provider": "BetGames",
+    "description": "(Not listed on Khelostar)",
+    "what_makes_it_unique": [
+      "(Not listed on Khelostar)"
+    ]
+  },
+  "T-Basket 24/7": {
+    "game_name": "T-Basket 24/7",
+    "provider": "BetGames",
+    "description": "(Not listed on Khelostar)",
+    "what_makes_it_unique": [
+      "(Not listed on Khelostar)"
+    ]
+  },
+  "T-Kick 24/7": {
+    "game_name": "T-Kick 24/7",
+    "provider": "BetGames",
+    "description": "(Not listed on Khelostar)",
+    "what_makes_it_unique": [
+      "(Not listed on Khelostar)"
+    ]
+  },
+  "Instant Roulette": {
+    "game_name": "Instant Roulette",
+    "provider": "BGames",
+    "description": "Instant Roulette by BGames is a fast-paced, low-volatility RNG roulette game following classic European rules. Designed for mobile and desktop, it features a 97.3% RTP and a 35/1 max multiplier. It delivers a stylish, classic casino experience with elegant 3D visuals.",
+    "what_makes_it_unique": [
+      "This version features a lightning-fast \"Turbo mode\" for rapid gameplay. It provides seamless, on-demand action with no live dealers or waiting times. This puts players in complete control of when to spin and win."
+    ]
+  },
+  "Skyward Deluxe": {
+    "game_name": "Skyward Deluxe",
+    "provider": "BGames",
+    "description": "Skyward Deluxe by BGames is a high-volatility community crash game with a 97.00% RTP. It features an aviation theme where players watch a plane multiplier rise, aiming to cash out before it crashes. The title supports dual betting interfaces and is fully playable on desktop and mobile devices.",
+    "what_makes_it_unique": [
+      "This enhanced edition introduces competitive and community-driven elements. It stands out with an enormous 100,000x maximum multiplier, a progressive jackpot, leaderboards, winboards, a live chat feature, and flexible partial cash-out options."
+    ]
+  },
+  "Speed Baccarat": {
+    "game_name": "Speed Baccarat",
+    "provider": "BGames",
+    "description": "Speed Baccarat by BGames is a fast-paced version of the classic high-stakes card game designed for players who want quicker rounds and more action. Professional live dealers conduct the game with accelerated dealing while maintaining all standard baccarat rules and betting options.",
+    "what_makes_it_unique": [
+      "Speed Baccarat offers significantly faster gameplay compared to standard baccarat, allowing for more hands per hour with the same elegant presentation and professional dealers. The game maintains medium volatility with standard payouts and is ideal for experienced players seeking higher volume and excitement."
+    ]
+  },
+  "Immortal Blackjack": {
+    "game_name": "Immortal Blackjack",
+    "provider": "BetGames",
+    "description": "Immortal Blackjack is a premium live dealer blackjack game featuring authentic Las Vegas casino vibes and four popular side bets. Players can enjoy main hand blackjack along with Lucky Lucky, 21+3, Perfect Pair, and Buster Blackjack for additional winning opportunities.",
+    "what_makes_it_unique": [
+      "Immortal Blackjack stands out with its four side bets offering high payout potential, including Buster Blackjack up to 2,001x. The game features standard dealer rules (hit on 16, stand on 17) with minimum bets starting at $1, making it accessible while providing substantial side bet excitement and strategic depth.\""
+    ]
+  },
+  "All In Baccarat": {
+    "game_name": "All In Baccarat",
+    "provider": "BetGames",
+    "description": "All In Baccarat by BetGames is a dynamic live baccarat game with Asian-inspired design and multiple volatility options (Low, Medium, High). The game follows standard baccarat rules with additional side bets and offers flexible betting limits across different game IDs.",
+    "what_makes_it_unique": [
+      "All In Baccarat features high RTP of 98.94% and maximum side bet payouts up to x200. With three volatility levels and a wide range of betting options (Player, Banker, Tie, Pairs, and various bonuses), the game provides excellent winning potential and flexibility for different player preferences and bankroll sizes."
+    ]
+  }
+}

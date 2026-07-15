@@ -1,0 +1,26 @@
+{
+  "Aviatrix": {
+    "game_name": "Aviatrix",
+    "provider": "Aviatrix",
+    "description": "Aviatrix is a fast-paced crash game where players bet on a plane's flight while the multiplier continuously increases. Players must cash out before the plane crashes to secure winnings, with multipliers reaching up to 10,000x.",
+    "what_makes_it_unique": [
+      "Aviatrix features a unique experience-based progression system where players build and customize their own aircraft. As they earn experience through gameplay, they unlock new cosmetic upgrades while enjoying a transparent 97% RTP experience."
+    ]
+  },
+  "Aviatrix Second Chance": {
+    "game_name": "Aviatrix Second Chance",
+    "provider": "Aviatrix",
+    "description": "Aviatrix Second Chance is an aviation-themed crash game where players bet on a rising flight multiplier and attempt to cash out before the aircraft crashes.",
+    "what_makes_it_unique": [
+      "Aviatrix Second Chance introduces a signature Second Chance feature that allows selected players to continue after the initial crash. It also shares player progression, achievements, and loyalty status with the original Aviatrix, creating a unified gaming ecosystem."
+    ]
+  },
+  "Aviatrix Fruits": {
+    "game_name": "Aviatrix Fruits",
+    "provider": "Aviatrix",
+    "description": "Aviatrix Fruits is a classic fruit-themed video slot featuring a traditional 5-reel, 3-row layout with 10 paylines. It combines simple slot gameplay with vibrant visuals inspired by the Aviatrix universe.",
+    "what_makes_it_unique": [
+      "Aviatrix Fruits stands out by integrating customized Aviatrix aircraft into its Scatter symbols, creating a unique visual identity that changes dynamically throughout each gaming session."
+    ]
+  }
+}

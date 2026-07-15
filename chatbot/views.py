@@ -1,7 +1,6 @@
 import os
 import json
 import logging
-
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,147 +11,171 @@ from mistralai.client import Mistral
 from .prompts import SYSTEM_PROMPT
 from .mojoslc_prompts import MOJOSLC_PROMPT
 from .evolution_prompts import EVOLUTION_PROMPT
+from .pgsoft_prompts import prompts
 
 load_dotenv()
-
 logger = logging.getLogger(__name__)
 
+# =====================================================
+# PATH CONFIGURATION
+# =====================================================
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-JSON_FILE = os.path.join(BASE_DIR, "chatbot", "data", "7mojos.json")
+MOJOS_FILE = os.path.join(BASE_DIR, "chatbot", "data", "7mojos.json")
+EVOLUTION_FILE = os.path.join(BASE_DIR, "chatbot", "data", "evolution.json")
+BETONGAMES_FILE = os.path.join(BASE_DIR, "chatbot", "data", "betongames.json")
+JACKTOP_FILE = os.path.join(BASE_DIR, "chatbot", "data", "jacktop.json")
+PGSOFT_FILE = os.path.join(BASE_DIR, "chatbot", "data", "pgsoft.json")
+BGAMES_FILE=os.path.join (BASE_DIR,"chatbot","data","bgames.json")
+BETGAMES_FILE=os.path.join(BASE_DIR,"chatbot","data","betgames.json")
+WINMATCH_FILE=os.path.join(BASE_DIR,"chatbot","data","winmatch.json")
+ELCASINO_FILE=os.path.join(BASE_DIR,"chatbot","data","elcasino.json")
+TVBET_FILE=os.path.join(BASE_DIR,"chatbot","data","tvbet.json")
+KAGAMING_FILE=os.path.join(BASE_DIR,"chatbot","data","kagaming.json")
+SPRIBE_FILE=os.path.join(BASE_DIR,"chatbot","data","spribe.json")
+AVIATRIX_FILE=os.path.join(BASE_DIR,"chatbot","data","aviatrix.json")
+PIGABOOM_FILE=os.path.join(BASE_DIR,"chatbot","data","pigaboom.json")
+SPIN4WIN_FILE=os.path.join(BASE_DIR,"chatbot","data","1spin4win.json")
+TURBO_FILE=os.path.join(BASE_DIR,"chatbot","data","tubogames.json")
+SMARTSOFT_FILE=os.path.join(BASE_DIR,"chatbot","data","smartsoft.json")
+# =====================================================
+# LOAD JSON DATABASES
+# =====================================================
+def load_json(filepath, label):
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            return list(json.load(f).values())
+    except FileNotFoundError:
+        print(f"⚠️ {label} not found!")
+        return []
 
-# Load games and convert dict to list of game objects
-with open(JSON_FILE, "r", encoding="utf-8") as f:
-    GAMES = list(json.load(f).values())
+MOJOS_GAMES = load_json(MOJOS_FILE, "7mojos.json")
+EVOLUTION_GAMES = load_json(EVOLUTION_FILE, "evolution.json")
+BETONGAMES_GAMES = load_json(BETONGAMES_FILE, "betongames.json")
+JACKTOP_GAMES = load_json(JACKTOP_FILE, "jacktop.json")
+PGSOFT_GAMES = load_json(PGSOFT_FILE, "pgsoft.json")
+BGAMES_GAMES=load_json(BGAMES_FILE,"bgames.json")
+BETGAMES_GAMES=load_json(BETGAMES_FILE,"betgames.json")
+WINMATCH_GAMES=load_json(WINMATCH_FILE,"winmatch.json")
+ELCASINO_GAMES=load_json(ELCASINO_FILE,"elcasino.json")
+TVBET_GAMES=load_json(TVBET_FILE,"tvbet.json")
+KAGAMING_GAMES=load_json(KAGAMING_FILE,"kagaming.json")
+SPRIBE_GAMES=load_json(SPRIBE_FILE,"spribe.json")
+AVIATRIX_GAMES=load_json(AVIATRIX_FILE,"aviatrix.json")
+PIGABOOM_GAMES=load_json(PIGABOOM_FILE,"pigaboom.json")
+SPIN4WIN_GAMES=load_json(SPRIBE_FILE,"1spin4win.json")
+TURBO_GAMES=load_json(TURBO_FILE,"turbogames.json")
+SMARTSOFT_GAMES=load_json(SMARTSOFT_FILE,"smartsoft.json")
 
-print("=" * 50)
-print(f"✅ SERVER STARTED - Loaded {len(GAMES)} 7Mojos Games")
-for g in GAMES:
-    print(f"   -> {g['game_name']}")
-print("=" * 50)
+ALL_GAMES = MOJOS_GAMES + EVOLUTION_GAMES + BETONGAMES_GAMES + JACKTOP_GAMES + PGSOFT_GAMES + BGAMES_GAMES+BETGAMES_GAMES+WINMATCH_GAMES+ELCASINO_GAMES+TVBET_GAMES+KAGAMING_GAMES+SPRIBE_GAMES+AVIATRIX_GAMES+PIGABOOM_GAMES+SPIN4WIN_GAMES+SMARTSOFT_GAMES
 
+print("=" * 60)
+print("✅ GAME DATABASE LOADED")
+print(f"7MOJOS GAMES : {len(MOJOS_GAMES)}")
+print(f"EVOLUTION GAMES : {len(EVOLUTION_GAMES)}")
+print(f"BETONGAMES GAMES : {len(BETONGAMES_GAMES)}")
+print(f"JACKTOP GAMES : {len(JACKTOP_GAMES)}")
+print(f"PGSOFT GAMES : {len(PGSOFT_GAMES)}")
+print(f"BGAMES : {len(BGAMES_GAMES)}")
+print(f"BETGAMES : {len(BETGAMES_GAMES)}")
+print(f"WINMATCHGAMES : {len(WINMATCH_GAMES)}")
+print(f"ELCASINOGAMES: {len(ELCASINO_GAMES)}")
+print(f"TVBETGAMES: {len(TVBET_GAMES)}")
+print(f"KAGAMING: {len(KAGAMING_GAMES)}")
+print(f"SPRIBE: {len(SPRIBE_GAMES)}")
+print(f"AVIATRIX: {len(AVIATRIX_GAMES)}")
+print(f"PIGABOOM: {len(PIGABOOM_GAMES)}")
+print(f"1SPIN4WIN: {len(SPIN4WIN_GAMES)}")
+print(f"SMARTSOFT: {len(SMARTSOFT_GAMES)}")
+print(f"TOTAL (with duplicates) : {len(ALL_GAMES)}")
 
-def find_game(query: str) -> dict | None:
-    """Search for a game by name (case-insensitive partial match)."""
+print("=" * 60)
+
+# =====================================================
+# EXACT MATCH ONLY
+# =====================================================
+def find_game_exact(query, games):
+    """Returns exactly ONE game or NONE. No partial, no fuzzy."""
     query_lower = query.strip().lower()
-    
-    for game in GAMES:
-        if query_lower in game["game_name"].lower():
+    for game in games:
+        if game.get("game_name", "").strip().lower() == query_lower:
             return game
     return None
 
+# =====================================================
+# FORMAT GAME RESPONSE
+# =====================================================
+def format_game_reply(game):
+    unique = "\n".join([f"• {item}" for item in game.get("what_makes_it_unique", [])])
+    return f"""**{game.get('game_name')}**
 
-def format_game_reply(game: dict) -> str:
-    """Format a game dict into the required response format."""
-    unique = "\n".join(
-        [f"• {item}" for item in game.get("what_makes_it_unique", [])]
-    )
-    
-    return f"""**Game Name:** {game['game_name']}
-
-**Description:**
-{game['description']}
+{game.get('description', '')}
 
 **What Makes It Unique:**
 {unique}"""
 
-
+# =====================================================
+# HOME PAGE
+# =====================================================
 def home(request):
     return render(request, "chatbot/index.html")
 
-
+# =====================================================
+# CHAT API
+# =====================================================
 @csrf_exempt
 @require_POST
 def chat(request):
     try:
         data = json.loads(request.body)
-
         user_message = data.get("message", "").strip()
-        # Default to general if frontend doesn't send it (like your current HTML)
         assistant = data.get("assistant", "general").lower()
 
-        print(f"\n📩 Incoming message: '{user_message}' (Assistant selected: '{assistant}')")
-
-        if not user_message:
-            return JsonResponse({"error": "Message is required"}, status=400)
-
-        # ============================================
-        # MANDATORY CHECK: 7Mojos Games Database
-        # This runs for EVERY message to prevent AI hallucinations
-        # ============================================
-        game = find_game(user_message)
+        print(f"\n📩 Message : {user_message}")
         
-        if game:
-            print(f"🛑 AI BLOCKED: Found '{game['game_name']}' in JSON. Returning exact data.")
-            reply = format_game_reply(game)
-            return JsonResponse({"reply": reply})
+        if not user_message:
+            return JsonResponse({"error": "Message required"}, status=400)
 
-        # ============================================
-        # FALLBACK: Call Mistral AI (Only if NO game was found)
-        # ============================================
-        print(f"🤖 No game found in JSON. Calling Mistral AI...")
+        # =================================================
+        # EXACT MATCH ACROSS ALL PROVIDERS
+        # =================================================
+        matched_game = find_game_exact(user_message, ALL_GAMES)
+
+        if matched_game:
+            print(f"✅ JSON MATCH : {matched_game['game_name']}")
+            return JsonResponse({"reply": format_game_reply(matched_game)})
+
+        # =================================================
+        # MISTRAL FALLBACK (Only if NO exact match found)
+        # =================================================
+        print("🤖 Calling Mistral...")
         
         api_key = os.getenv("MISTRAL_API_KEY")
-
         if not api_key:
-            return JsonResponse(
-                {"error": "MISTRAL_API_KEY not configured"},
-                status=500
-            )
+            return JsonResponse({"error": "MISTRAL_API_KEY missing"}, status=500)
 
-        # Select the correct system prompt based on assistant type
         if assistant == "7mojos":
             system_prompt = MOJOSLC_PROMPT
         elif assistant == "evolution":
             system_prompt = EVOLUTION_PROMPT
+        elif assistant == "pgsoft":
+            system_prompt = prompts
         else:
             system_prompt = SYSTEM_PROMPT
-
+            
         client = Mistral(api_key=api_key)
-
         response = client.chat.complete(
             model="mistral-large-latest",
             temperature=0,
             messages=[
-                {
-                    "role": "system",
-                    "content": system_prompt,
-                },
-                {
-                    "role": "user",
-                    "content": user_message,
-                },
-            ],
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ]
         )
 
-        bot_reply = response.choices[0].message.content
-        print(f"✅ AI Response received.")
-
-        return JsonResponse({"reply": bot_reply})
+        return JsonResponse({"reply": response.choices[0].message.content})
 
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON"}, status=400)
-
     except Exception as e:
         logger.exception(e)
         return JsonResponse({"error": "Something went wrong"}, status=500)
-    
-    
-from difflib import get_close_matches
-
-def find_game(query: str) -> dict | None:
-    """Search for a game by name with typo tolerance."""
-    query_lower = query.strip().lower()
-    
-    # 1. Try exact substring match first
-    for game in GAMES:
-        if query_lower in game["game_name"].lower():
-            return game
-            
-    # 2. If no exact match, try fuzzy matching to catch typos (like "Rouletter")
-    game_names = {game["game_name"].lower(): game for game in GAMES}
-    matches = get_close_matches(query_lower, game_names.keys(), n=1, cutoff=0.8)
-    
-    if matches:
-        return game_names[matches[0]]
-        
-    return None

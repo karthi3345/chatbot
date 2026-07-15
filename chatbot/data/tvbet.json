@@ -1,0 +1,65 @@
+{
+  "Blackjack": {
+    "game_name": "Blackjack",
+    "description": "Set against a stylish 1920s backdrop, Blackjack transforms the world’s favorite card game into a fast-paced playing experience. The presenter deals to designated Player and Dealer positions from a standard 52-card deck, challenging users to predict who will hit 21 or get closest without busting.",
+    "what_makes_it_unique": [
+      "This version stands out by turning classic blackjack into a diverse betting market, letting players wager on exact winning point totals, card counts or busts. Moving beyond standard table rules, it dramatically boosts win potential by integrating an active, three-level progressive jackpot system."
+    ]
+  },
+  "1Bet": {
+    "game_name": "1Bet",
+    "description": "1Bet (also known as Bingo37) is a fast-paced, live-streamed lottery game running around the clock with non-stop, one-minute rounds. Melding the mechanics of a live lottery draw with the quick-wagering nature of European Roulette, the game challenges players to predict which single numbered ball will be drawn out of 37.",
+    "what_makes_it_unique": [
+      "1Bet stands out by utilizing a 100% fair, certified mechanical lottery drum streamed in continuous live-video mode. With a rapid 45-second betting window and a wide array of options, including exact numbers, colors, parity, and custom ball sequences, it gives players diverse, high-frequency opportunities to win."
+    ]
+  },
+  "Lucky6": {
+    "game_name": "Lucky6",
+    "description": "Lucky6 is a highly dynamic, live-streamed numbers game where 35 winning balls are drawn from a 48-ball lottery machine. Players select six numbers, with the goal of having their chosen combinations drawn as early as possible in the sequence to maximize their payout multipliers.",
+    "what_makes_it_unique": [
+      "Lucky6 stands out by offering exceptionally high winning probabilities due to its favorable 35-out-of-48 draw mechanics. Operating on a 100% fair, certified mechanical lottery drum, the game allows players to place multiple 6-number slips simultaneously alongside rapid side bets on colors, odd/even splits, and exact totals."
+    ]
+  },
+  "Wheelbet": {
+    "game_name": "Wheelbet",
+    "description": "Wheelbet is a fast-paced live casino game that perfectly fuses the mechanics of the classic Wheel of Fortune with American roulette. Hosted by a live dealer on a 2-minute continuous daily loop, the game challenges players to predict where the wheel's pointer will land after a professional dual-direction spin.",
+    "what_makes_it_unique": [
+      "Wheelbet stands out by offering an expansive 75-second betting window that lets players wager not just on the immediate upcoming spin, but on multiple future draws simultaneously. Running on a 100% fair, certified mechanical wheel, it pairs rapid results with a clean visual interface that highlights the winning sector instantly."
+    ]
+  },
+  "Poker": {
+    "game_name": "Poker",
+    "description": "Poker brings the complete, authentic Texas Hold’em experience into an uninterrupted, 24/7 live casino environment. Operating across the traditional five-stage betting loop—Bet, Preflop, Flop, Turn and River—this fast-paced game utilizes a standard 52-card deck to deliver premium, real-time broadcast action directly to players.",
+    "what_makes_it_unique": [
+      "This title completely removes traditional player limits, allowing an infinite number of participants to bet simultaneously. Players can wager on the outright victory of six individual hands or predict specific winning card combinations while benefiting from automated enrollment in an exclusive three-level jackpot draw."
+    ]
+  },
+  "War of Elements": {
+    "game_name": "War of Elements",
+    "description": "War of Elements is a lightning-quick card game broadcast in 24/7 live mode. Utilizing a single 52-card deck, the concept is brilliantly simple: the player and dealer are each dealt one card, and the highest value wins. Rounds take less than a minute, delivering near-continuous betting action.",
+    "what_makes_it_unique": [
+      "The game stands out by turning an ultra-simple card draw into a deep wagering experience. Beyond standard win/loss outcomes, players can bet on card colors, suits, exact values, over/under splits, and future events while automatically participating in an exclusive three-level progressive jackpot."
+    ]
+  },
+  "5Bet": {
+    "game_name": "5Bet",
+    "description": "5Bet is a fast-paced live lottery game broadcasting every three minutes. Utilizing a certified lottery machine for provable fairness, the system randomly selects five lucky balls from a pool of 36. Each ball is numbered and colored blue, green, red, or yellow, creating an engaging visual draw.",
+    "what_makes_it_unique": [
+      "5Bet sets itself apart by allowing players to stack single or accumulator bets on numbers and color combinations across multiple future draws simultaneously. With betting options including exact drops, totals, color orders, and odd/even splits, players also receive automatic entry into a three-level progressive jackpot."
+    ]
+  },
+  "7Bet": {
+    "game_name": "7Bet",
+    "description": "7Bet is a rapid-cycle live lottery game broadcasting every three minutes. Driven by a certified lottery machine ensuring random and fair results, the game draws seven lucky balls from a pool of 42. The balls are divided into blue and black, creating a visually engaging draw.",
+    "what_makes_it_unique": [
+      "7Bet stands out with its extensive betting menu, allowing wagers on exact ball drops, non-dropouts, total sums, color orders, and odd/even splits. Multi-round betting and automatic qualification for a three-level progressive jackpot further enhance the experience."
+    ]
+  },
+  "Keno": {
+    "game_name": "Keno",
+    "description": "Keno is a world-famous live lottery game broadcasting every six minutes. A certified drum mixes 80 numbered balls and randomly selects 20 winning numbers while an interactive live dealer hosts the draw. The game provides a familiar format with a comfortable three-minute betting window.",
+    "what_makes_it_unique": [
+      "Keno distinguishes itself by transforming a classic lottery draw into a comprehensive betting platform. Players can wager on exact number hits, missed numbers, total sum over/under outcomes, and odd/even splits while automatically qualifying for a lucrative three-level progressive jackpot."
+    ]
+  }
+}

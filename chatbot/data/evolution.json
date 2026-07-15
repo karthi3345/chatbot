@@ -1,0 +1,56 @@
+{
+"Roulette":{
+"game_name":"Roulette",
+"Provider":"evolution",
+"description":"Roulette transports you to a sophisticated virtual casino floor featuring a pristine, classic table layout. Experience the timeless thrill of the spinning wheel and the anticipation of the ivory ball in an elegant, user-friendly digital environment.",
+"what_makes_it_unique": ["Roulette features low volatility play within the traditional table games category, offering standard, authentic betting structures for both casual players and seasoned strategists. Rely on classic wagering systems to enjoy reliable, steady gameplay and authentic casino returns."
+]
+
+},
+
+
+"Craps":{
+"game_name":"Craps",
+"Provider":"evolution",
+"description":"Live Craps by Evolution brings the electric atmosphere of a classic underground Speakeasy table straight to your screen. Bet on the dice rolls with fellow players in this dynamic, fast-paced live game filled with excitement.",
+"what_makes_it_unique": ["Live Craps features authentic two-stage gameplay, real-time player betting visibility, and an Easy Mode for beginners alongside full betting options. Experience the thrill of live dice with smooth streaming and constant win updates."
+]
+
+},
+"Blackjack A":{
+"game_name":"Blackjack A",
+"Provider":"evolution",
+"description":"Live Blackjack by Evolution is the gold standard for online table gaming, offering premium live dealer action with multiple camera angles and professional dealers. Master strategy as you aim for 21 against the dealer in this timeless casino favorite.",
+"what_makes_it_unique": ["Live Blackjack provides unlimited players at the table, side bets, and perfect streaming quality with intuitive controls. Play at your pace with clear rules and real-time results in Evolution’s flagship live casino experience."
+]
+},
+
+"Blackjack B":{
+"game_name":"Blackjack B",
+"Provider":"evolution",
+"description":"Live Blackjack by Evolution is the gold standard for online table gaming, offering premium live dealer action with multiple camera angles and professional dealers. Master strategy as you aim for 21 against the dealer in this timeless casino favorite.",
+"what_makes_it_unique": ["Live Blackjack provides unlimited players at the table, side bets, and perfect streaming quality with intuitive controls. Play at your pace with clear rules and real-time results in Evolution’s flagship live casino experience."
+]
+},
+
+"Blackjack C":{
+"game_name":"Blackjack C",
+"Provider":"evolution",
+"description":"Live Blackjack by Evolution is the gold standard for online table gaming, offering premium live dealer action with multiple camera angles and professional dealers. Master strategy as you aim for 21 against the dealer in this timeless casino favorite.",
+"what_makes_it_unique": ["Live Blackjack provides unlimited players at the table, side bets, and perfect streaming quality with intuitive controls. Play at your pace with clear rules and real-time results in Evolution’s flagship live casino experience."
+]
+},
+
+"Blackjack Party":{
+"game_name":"Blackjack Party",
+"Provider":"evolution",
+"description":"Blackjack Party by Evolution turns the classic card game into a lively celebration with energetic dealers, fun visuals, and non-stop action. Join the party atmosphere as you play multiple hands and chase 21 with friends in this vibrant live experience.",
+"what_makes_it_unique": ["Blackjack Party features a festive multi-camera setup, charismatic dealers, and unlimited player seating for maximum fun. Enjoy fast-paced blackjack with side bets and Evolution’s premium streaming in a joyful party setting."
+]
+}
+
+
+
+
+
+}
