@@ -131,55 +131,410 @@ def home(request):
 def chat(request):
     try:
         data = json.loads(request.body)
+
         user_message = data.get("message", "").strip()
         assistant = data.get("assistant", "general").lower()
 
         print(f"\n📩 Message : {user_message}")
-        
+
         if not user_message:
-            return JsonResponse({"error": "Message required"}, status=400)
+            return JsonResponse(
+                {"error": "Message required"},
+                status=400
+            )
 
-        # =================================================
-        # EXACT MATCH ACROSS ALL PROVIDERS
-        # =================================================
-        matched_game = find_game_exact(user_message, ALL_GAMES)
+        query = user_message.lower()
 
-        if matched_game:
-            print(f"✅ JSON MATCH : {matched_game['game_name']}")
-            return JsonResponse({"reply": format_game_reply(matched_game)})
 
-        # =================================================
-        # MISTRAL FALLBACK (Only if NO exact match found)
-        # =================================================
-        print("🤖 Calling Mistral...")
-        
-        api_key = os.getenv("MISTRAL_API_KEY")
-        if not api_key:
-            return JsonResponse({"error": "MISTRAL_API_KEY missing"}, status=500)
+        # ==========================================
+        # PROVIDER DETECT
+        # ==========================================
+        def detect_provider(query):
 
-        if assistant == "7mojos":
-            system_prompt = MOJOSLC_PROMPT
-        elif assistant == "evolution":
-            system_prompt = EVOLUTION_PROMPT
-        elif assistant == "pgsoft":
-            system_prompt = prompts
-        else:
-            system_prompt = SYSTEM_PROMPT
-            
-        client = Mistral(api_key=api_key)
-        response = client.chat.complete(
-            model="mistral-large-latest",
-            temperature=0,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
+            providers = [
+                "winmatch",
+                "pigboom",
+                "pgsoft",
+                "evolution",
+                "7mojos",
+                "pragmatic",
+                "hacksaw",
+                "pigaboom",
+                "tvbet",
+                
             ]
+
+            for provider in providers:
+                if provider in query:
+                    return provider
+
+            return None
+
+
+
+        # ==========================================
+        # HIGHEST RTP GAMES
+        # ==========================================
+        if (
+            "highest rtp" in query or
+            "high rtp" in query or
+            "best rtp" in query or
+            "top rtp" in query
+        ):
+
+            provider = detect_provider(query)
+
+            rtp_games = []
+
+
+            for game in ALL_GAMES:
+
+                # Provider Filter
+                if provider:
+
+                    game_provider = str(
+                        game.get("provider", "")
+                    ).lower()
+
+                    if game_provider != provider:
+                        continue
+
+
+                rtp = game.get("rtp")
+
+                if rtp:
+
+                    try:
+
+                        value = float(
+                            str(rtp)
+                            .replace("%", "")
+                            .strip()
+                        )
+
+                        rtp_games.append(
+                            (value, game)
+                        )
+
+                    except:
+                        pass
+
+
+
+            if rtp_games:
+
+                highest_game = max(
+                    rtp_games,
+                    key=lambda x: x[0]
+                )[1]
+
+
+                return JsonResponse({
+
+                    "reply":
+                    f"🎰 Highest RTP Game\n\n"
+                    f"• {highest_game['game_name']} "
+                    f"— RTP: {highest_game['rtp']}"
+
+                })
+
+
+            return JsonResponse({
+
+                "reply":
+                "No RTP games found."
+
+            })
+
+
+
+
+        # ==========================================
+        # LOWEST RTP GAMES
+        # ==========================================
+        if (
+            "lowest rtp" in query or
+            "low rtp" in query or
+            "worst rtp" in query
+        ):
+
+
+            provider = detect_provider(query)
+
+            rtp_games = []
+
+
+            for game in ALL_GAMES:
+
+
+                if provider:
+
+                    game_provider = str(
+                        game.get("provider","")
+                    ).lower()
+
+
+                    if game_provider != provider:
+                        continue
+
+
+
+                rtp = game.get("rtp")
+
+
+                if rtp:
+
+                    try:
+
+                        value = float(
+                            str(rtp)
+                            .replace("%","")
+                            .strip()
+                        )
+
+
+                        rtp_games.append(
+                            (value,game)
+                        )
+
+
+                    except:
+                        pass
+
+
+
+            if rtp_games:
+
+
+                lowest_game = min(
+                    rtp_games,
+                    key=lambda x:x[0]
+                )[1]
+
+
+                return JsonResponse({
+
+                    "reply":
+                    f"🎰 Lowest RTP Game\n\n"
+                    f"• {lowest_game['game_name']} "
+                    f"— RTP: {lowest_game['rtp']}"
+
+                })
+
+
+
+            return JsonResponse({
+
+                "reply":
+                "No RTP games found."
+
+            })
+
+
+
+
+        # ==========================================
+        # RTP LOOKUP SPECIFIC GAME
+        # ==========================================
+        if "rtp" in query:
+
+
+            sorted_games = sorted(
+                ALL_GAMES,
+                key=lambda g:
+                len(
+                    g.get("game_name","")
+                ),
+                reverse=True
+            )
+
+
+            for game in sorted_games:
+
+
+                game_name = (
+                    game.get(
+                        "game_name",
+                        ""
+                    )
+                    .lower()
+                    .strip()
+                )
+
+
+                if (
+                    game_name and
+                    game_name in query
+                ):
+
+
+                    rtp = game.get("rtp")
+
+
+                    if rtp:
+
+                        return JsonResponse({
+
+                            "reply":
+                            f"🎰 {game['game_name']}\n\n"
+                            f"RTP: {rtp}"
+
+                        })
+
+
+
+                    return JsonResponse({
+
+                        "reply":
+                        f"🎰 {game['game_name']}\n\n"
+                        "RTP information unavailable."
+
+                    })
+
+
+
+
+
+        # ==========================================
+        # EXACT GAME MATCH
+        # ==========================================
+        matched_game = find_game_exact(
+            user_message,
+            ALL_GAMES
         )
 
-        return JsonResponse({"reply": response.choices[0].message.content})
+
+        if matched_game:
+
+
+            print(
+                f"✅ JSON MATCH : "
+                f"{matched_game['game_name']}"
+            )
+
+
+            return JsonResponse({
+
+                "reply":
+                format_game_reply(
+                    matched_game
+                )
+
+            })
+
+
+
+
+
+        # ==========================================
+        # MISTRAL FALLBACK
+        # ==========================================
+        print("🤖 Calling Mistral...")
+
+
+        api_key = os.getenv(
+            "MISTRAL_API_KEY"
+        )
+
+
+        if not api_key:
+
+            return JsonResponse({
+
+                "error":
+                "MISTRAL_API_KEY missing"
+
+            }, status=500)
+
+
+
+        if assistant == "7mojos":
+
+            system_prompt = MOJOSLC_PROMPT
+
+
+        elif assistant == "evolution":
+
+            system_prompt = EVOLUTION_PROMPT
+
+
+        elif assistant == "pgsoft":
+
+            system_prompt = prompts
+
+
+        else:
+
+            system_prompt = SYSTEM_PROMPT
+
+
+
+
+
+        client = Mistral(
+            api_key=api_key
+        )
+
+
+        response = client.chat.complete(
+
+            model="mistral-large-latest",
+
+            temperature=0,
+
+            messages=[
+
+                {
+                    "role":"system",
+                    "content":system_prompt
+                },
+
+                {
+                    "role":"user",
+                    "content":user_message
+                }
+
+            ]
+
+        )
+
+
+
+        return JsonResponse({
+
+            "reply":
+            response
+            .choices[0]
+            .message
+            .content
+
+        })
+
+
+
 
     except json.JSONDecodeError:
-        return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+
+        return JsonResponse({
+
+            "error":
+            "Invalid JSON"
+
+        }, status=400)
+
+
+
+
     except Exception as e:
+
+
         logger.exception(e)
-        return JsonResponse({"error": "Something went wrong"}, status=500)
+
+
+        return JsonResponse({
+
+            "error":
+            "Something went wrong"
+
+        }, status=500)
