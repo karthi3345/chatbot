@@ -97,12 +97,28 @@ print("=" * 60)
 # =====================================================
 # EXACT MATCH ONLY
 # =====================================================
+import re
+
+def normalize_name(text):
+    return re.sub(r'[^a-z0-9]', '', str(text).lower())
+
 def find_game_exact(query, games):
-    """Returns exactly ONE game or NONE. No partial, no fuzzy."""
-    query_lower = query.strip().lower()
+    """
+    Returns exactly ONE game or NONE.
+    Ignores spaces, hyphens and case.
+    """
+
+    search_name = normalize_name(query)
+
     for game in games:
-        if game.get("game_name", "").strip().lower() == query_lower:
+
+        game_name = normalize_name(
+            game.get("game_name", "")
+        )
+
+        if game_name == search_name:
             return game
+
     return None
 
 # =====================================================
@@ -170,6 +186,13 @@ def chat(request):
 
             return None
 
+        query = user_message.lower()
+        print("QUERY =", query)
+        if (
+    " vs " in query or
+    " and " in query or "compare" in query):
+         return cmp_2_games(request)
+         
 
 
         # ==========================================
@@ -537,4 +560,139 @@ def chat(request):
             "error":
             "Something went wrong"
 
+        }, status=500)
+        
+        
+
+        
+@csrf_exempt
+@require_POST
+def cmp_2_games(request):
+    try:
+        data = json.loads(request.body)
+
+        query = data.get("message", "").strip().lower()
+
+        print("🔥 COMPARE FUNCTION HIT")
+        print("QUERY:", query)
+
+        # Support both:
+        # compare game1 vs game2
+        # compare game1 and game2
+
+        if " vs " in query:
+            parts = query.replace("compare", "", 1).split(" vs ")
+
+        elif " and " in query:
+            parts = query.replace("compare", "", 1).split(" and ")
+
+        else:
+            return JsonResponse({
+                "reply": "Use: compare Game1 vs Game2"
+            })
+
+        if len(parts) != 2:
+            return JsonResponse({
+                "reply": "Invalid comparison format."
+            })
+
+        game1_name = parts[0].strip()
+        game2_name = parts[1].strip()
+
+        print("GAME1:", game1_name)
+        print("GAME2:", game2_name)
+
+        game1 = find_game_exact(game1_name, ALL_GAMES)
+        game2 = find_game_exact(game2_name, ALL_GAMES)
+
+        print("FOUND GAME1:", game1)
+        print("FOUND GAME2:", game2)
+
+        if not game1:
+            return JsonResponse({
+                "reply": f"Game not found: {game1_name}"
+            })
+
+        if not game2:
+            return JsonResponse({
+                "reply": f"Game not found: {game2_name}"
+            })
+
+        # Description
+        description1 = (
+            game1.get("description")
+            or game1.get("Description")
+            or game1.get("game_description")
+            or "N/A"
+        )
+
+        description2 = (
+            game2.get("description")
+            or game2.get("Description")
+            or game2.get("game_description")
+            or "N/A"
+        )
+
+        # Unique Feature
+        unique1 = (
+            game1.get("what_makes_it_unique")
+            or game1.get("What Makes It Unique")
+            or game1.get("unique")
+            or game1.get("uniqueness")
+            or "N/A"
+        )
+
+        unique2 = (
+            game2.get("what_makes_it_unique")
+            or game2.get("What Makes It Unique")
+            or game2.get("unique")
+            or game2.get("uniqueness")
+            or "N/A"
+        )
+
+        # Convert list -> string
+        if isinstance(unique1, list):
+            unique1 = " ".join(str(x) for x in unique1)
+
+        if isinstance(unique2, list):
+            unique2 = " ".join(str(x) for x in unique2)
+
+        table_html = f"""
+        <h3>🎮 Game Comparison</h3>
+
+        <table border="1" cellpadding="8" cellspacing="0"
+               style="border-collapse:collapse;width:100%;">
+
+            <tr>
+                <th>Feature</th>
+                <th>{game1.get('game_name', '')}</th>
+                <th>{game2.get('game_name', '')}</th>
+            </tr>
+
+            <tr>
+                <td>Description</td>
+                <td>{description1}</td>
+                <td>{description2}</td>
+            </tr>
+
+            <tr>
+                <td>What Makes It Unique</td>
+                <td>{unique1}</td>
+                <td>{unique2}</td>
+            </tr>
+
+        </table>
+        """
+
+        print("✅ COMPARISON GENERATED")
+
+        return JsonResponse({
+            "reply": table_html 
+        })
+
+    except Exception as e:
+        logger.exception(e)
+
+        return JsonResponse({
+            "reply": f"Error: {str(e)}"
         }, status=500)

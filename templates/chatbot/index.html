@@ -372,10 +372,15 @@
     const row = document.createElement("div");
     row.className = "msg-row bot";
 
+    const isHtml =
+        text.includes("<table") ||
+        text.includes("<tr") ||
+        text.includes("<td");
+
     row.innerHTML = `
         <div class="m-avatar">${botSvg}</div>
         <div class="bubble">
-            ${marked.parse(text)}
+            ${isHtml ? text : marked.parse(text)}
             <span class="ts">${timeNow()}</span>
         </div>
     `;
