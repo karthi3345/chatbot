@@ -1,0 +1,61 @@
+{
+  "Ezugi Roulette": {
+    "game_name": "Ezugi Roulette",
+    "provider": "Ezugi",
+    "category": "Live Casino",
+    "difficulty": "Easy",
+    "rtp": "97.30%",
+    "description": "Ezugi Roulette is a classic live roulette game with simple betting options and real dealer experience.",
+    "what_makes_it_unique": [
+      "Beginner friendly roulette with live dealer interaction."
+    ]
+  },
+
+  "Ezugi Andar Bahar": {
+    "game_name": "Ezugi Andar Bahar",
+    "provider": "Ezugi",
+    "category": "Card Game",
+    "difficulty": "Easy",
+    "rtp": "97.00%",
+    "description": "A popular Indian card game where players predict whether the matching card appears on Andar or Bahar side.",
+    "what_makes_it_unique": [
+      "Simple rules and quick rounds make it easy for new players."
+    ]
+  },
+
+  "Ezugi Teen Patti": {
+    "game_name": "Ezugi Teen Patti",
+    "provider": "Ezugi",
+    "category": "Card Game",
+    "difficulty": "Hard",
+    "rtp": "96.00%",
+    "description": "A traditional three-card Indian poker style game with different hand rankings.",
+    "what_makes_it_unique": [
+      "Requires understanding of card combinations and strategy."
+    ]
+  },
+
+  "Ezugi Baccarat": {
+    "game_name": "Ezugi Baccarat",
+    "provider": "Ezugi",
+    "category": "Live Casino",
+    "difficulty": "Medium",
+    "rtp": "98.00%",
+    "description": "A classic baccarat game where players bet on player, banker, or tie outcomes.",
+    "what_makes_it_unique": [
+      "Simple betting mechanics with premium live dealer experience."
+    ]
+  },
+
+  "Ezugi Blackjack": {
+    "game_name": "Ezugi Blackjack",
+    "provider": "Ezugi",
+    "category": "Card Game",
+    "difficulty": "Medium",
+    "rtp": "99.00%",
+    "description": "A live blackjack game where players try to beat the dealer by reaching 21.",
+    "what_makes_it_unique": [
+      "Combines simple rules with strategic decision making."
+    ]
+  }
+}
