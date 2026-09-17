@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Spinix Chat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #0f1211;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #1a1d1c;
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        h2 {
+            margin-top: 0;
+            color: #f7b731;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #a0a5a3;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #0f1211;
+            border: 1px solid #2d3330;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #2ed573;
+        }
+        button {
+            background-color: #2ed573;
+            color: #0f1211;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #26b360;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>👋 Welcome to Spinix!</h2>
+        <p>Please enter your details to start chatting with our assistant.</p>
+
+        <form method="POST" action="/">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email (Optional)">
+            <button type="submit">Start Chatting</button>
+        </form>
+    </div>
+
+</body>
+</html>
