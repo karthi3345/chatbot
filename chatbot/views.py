@@ -613,7 +613,7 @@ def chat(request):
         return JsonResponse({
 
             "error":
-            "Something went wrong"
+            f"Something went wrong: {str(e)}"
 
         }, status=500)
         
