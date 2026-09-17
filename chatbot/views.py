@@ -206,10 +206,10 @@ def chat(request):
 #=====================================================
         query = user_message.lower()
         print("QUERY =", query)
-        if (
-    " vs " in query or
-    " and " in query or "compare" in query):
-         return cmp_2_games(request)
+        if (" vs " in query or " and " in query or "compare" in query):
+            cmp_res = cmp_2_games(request)
+            if cmp_res:
+                return cmp_res
          
 
 
@@ -633,14 +633,10 @@ def cmp_2_games(request):
             parts = query.replace("compare", "", 1).split(" and ")
 
         else:
-            return JsonResponse({
-                "reply": "Use: compare Game1 vs Game2"
-            })
+            return None
 
         if len(parts) != 2:
-            return JsonResponse({
-                "reply": "Invalid comparison format."
-            })
+            return None
 
         game1_name = parts[0].strip()
         game2_name = parts[1].strip()
@@ -654,15 +650,8 @@ def cmp_2_games(request):
         print("FOUND GAME1:", game1)
         print("FOUND GAME2:", game2)
 
-        if not game1:
-            return JsonResponse({
-                "reply": f"Game not found: {game1_name}"
-            })
-
-        if not game2:
-            return JsonResponse({
-                "reply": f"Game not found: {game2_name}"
-            })
+        if not game1 or not game2:
+            return None
 
         # Description
         description1 = (
