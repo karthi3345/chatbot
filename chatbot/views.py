@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from dotenv import load_dotenv
-from groq import Groq
+import requests
 
 from .prompts import SYSTEM_PROMPT
 from .mojoslc_prompts import MOJOSLC_PROMPT
@@ -505,15 +505,16 @@ def chat(request):
 
 
         # ==========================================
-        # GROQ FALLBACK
+        # CLOUDFLARE FALLBACK
         # ==========================================
-        print("Calling Groq...")
+        print("Calling Cloudflare Workers AI...")
 
-        api_key = os.getenv("GROQ_API_KEY")
+        account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+        api_token = os.getenv("CLOUDFLARE_API_TOKEN")
 
-        if not api_key:
+        if not account_id or not api_token:
             return JsonResponse({
-                "error": "GROQ_API_KEY missing"
+                "error": "Cloudflare credentials missing"
             }, status=500)
 
         if assistant == "7mojos":
@@ -525,33 +526,36 @@ def chat(request):
         else:
             system_prompt = SYSTEM_PROMPT
 
-        client = Groq(
-            api_key=api_key
-        )
+        # We use llama-3.1-8b-instruct because it supports a massive 128k context window, which can easily handle the large system prompts
+        url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"
+        headers = {
+            "Authorization": f"Bearer {api_token}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ]
+        }
 
         import time
         max_retries = 3
-        response = None
+        reply_content = None
         for attempt in range(max_retries):
             try:
-                response = client.chat.completions.create(
-                    model="qwen/qwen3.8-27b",
-                    temperature=0,
-                    messages=[
-                        {"role":"system", "content":system_prompt},
-                        {"role":"user", "content":user_message}
-                    ]
-                )
+                res = requests.post(url, headers=headers, json=payload)
+                res.raise_for_status()
+                reply_content = res.json()["result"]["response"]
                 break
             except Exception as e:
-                print(f"Groq API error on attempt {attempt+1}: {e}")
+                print(f"Cloudflare API error on attempt {attempt+1}: {e}\nResponse: {res.text if 'res' in locals() else 'No response'}")
                 if attempt == max_retries - 1:
                     raise e
                 time.sleep(2)
 
         return JsonResponse({
-            "reply":
-            response.choices[0].message.content
+            "reply": reply_content
         })
 
 
