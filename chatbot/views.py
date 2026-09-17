@@ -47,7 +47,12 @@ EZUGI_FILE = os.path.join(BASE_DIR,"chatbot","data","ezugi.json")
 def load_json(filepath, label):
     try:
         with open(filepath, "r", encoding="utf-8") as f:
-            return list(json.load(f).values())
+            games = list(json.load(f).values())
+            provider_name = label.replace(".json", "")
+            for g in games:
+                if not g.get('provider'):
+                    g['provider'] = provider_name
+            return games
     except FileNotFoundError:
         print(f"[!] {label} not found!")
         return []
@@ -548,6 +553,16 @@ def chat(request):
             system_prompt = prompts
         else:
             system_prompt = SYSTEM_PROMPT
+
+        # INJECT THE LOCAL JSON DATABASE SO THE AI STAYS WITHIN KNOWLEDGE
+        game_catalog_str = "CRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THIS EXACT LIST. DO NOT INVENT GAMES. DO NOT RECOMMEND GAMES NOT ON THIS LIST.\nAVAILABLE GAMES DATABASE:\n"
+        for g in ALL_GAMES:
+            name = g.get('game_name', 'N/A')
+            prov = g.get('provider', 'N/A')
+            rtp = g.get('rtp', 'N/A')
+            game_catalog_str += f"- {name} (Provider: {prov} | RTP: {rtp})\n"
+        
+        system_prompt = f"{game_catalog_str}\n\n{system_prompt}"
 
         # We use llama-3.1-8b-instruct because it supports a massive 128k context window, which can easily handle the large system prompts
         url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"
