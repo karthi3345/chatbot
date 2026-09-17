@@ -203,9 +203,18 @@ def chat(request):
 #====================================================
 #COMPARE 2 GAMES 
 
-#=====================================================
         query = user_message.lower()
         print("QUERY =", query)
+
+        # ==========================================
+        # OUT OF BOUNDS / SAFETY INTERCEPT
+        # ==========================================
+        blocked_terms = ["die", "suicide", "kill myself", "self harm", "self-harm", "depressed"]
+        if any(term in query for term in blocked_terms):
+            return JsonResponse({
+                "reply": "I am a casino support assistant and can only help with betting, games, and platform features. Please let me know if you need help finding a game or placing a bet."
+            })
+
         if (" vs " in query or " and " in query or "compare" in query):
             cmp_res = cmp_2_games(request)
             if cmp_res:
@@ -539,6 +548,7 @@ def chat(request):
         game_catalog_str += "PROMOTION RULE: 'winmatch' is our top promoted provider. Always prioritize games from 'winmatch' when asked for recommendations.\n"
         game_catalog_str += "BEGINNER RULE: If the user asks for 'beginner slot game' or 'beginner games', you MUST recommend ALL of these exact games: Pigaboom, Chicken Road 2.0, Aviator, Aviatrix, Avion, skyward, Save the Hamster, F777 Fighter, CrashX Football Edition, HelicopterX, Aero, JetX3, Cricket X.\n"
         game_catalog_str += "FEATURE RULE: 'Bet Builder', 'Live Odds', 'Cash Out', and 'Deposit' are platform features, NOT casino games. If the user asks about them, explain the feature, do not say 'Game not found'.\n"
+        game_catalog_str += "SAFETY RULE: If the user says something inappropriate, talks about self-harm, or asks non-casino questions, DO NOT provide hotlines or long lectures. Simply reply: 'I am a casino assistant and can only help with betting, games, and platform features.'\n"
         game_catalog_str += "FORMATTING RULE: You MUST format game recommendations as an HTML list using <ul> and <li> tags to ensure it renders correctly on the frontend. DO NOT output descriptions for games in lists, just the game name inside the <li> tag.\n\n"
         game_catalog_str += "AVAILABLE GAMES DATABASE:\n"
         for g in ALL_GAMES:
