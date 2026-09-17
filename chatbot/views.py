@@ -229,72 +229,37 @@ def chat(request):
             "highest rtp" in query or
             "high rtp" in query or
             "best rtp" in query or
-            "top rtp" in query
+            "top rtp" in query or
+            "higher rtp" in query
         ):
-
-            provider = detect_provider(query)
-
+            provider = detect_provider(query) or "winmatch"
             rtp_games = []
 
-
             for game in ALL_GAMES:
-
-                # Provider Filter
-                if provider:
-
-                    game_provider = str(
-                        game.get("provider", "")
-                    ).lower()
-
-                    if game_provider != provider:
-                        continue
-
+                game_provider = str(game.get("provider", "")).lower()
+                if game_provider != provider:
+                    continue
 
                 rtp = game.get("rtp")
-
                 if rtp:
-
                     try:
-
-                        value = float(
-                            str(rtp)
-                            .replace("%", "")
-                            .strip()
-                        )
-
-                        rtp_games.append(
-                            (value, game)
-                        )
-
+                        value = float(str(rtp).replace("%", "").strip())
+                        rtp_games.append((value, game))
                     except:
                         pass
 
-
-
             if rtp_games:
+                rtp_games.sort(key=lambda x: x[0], reverse=True)
+                top_games = rtp_games[:5]
+                
+                reply_html = f"🎰 <b>Highest RTP Games ({provider.title()})</b><br><br><ul>"
+                for val, g in top_games:
+                    reply_html += f"<li>{g['game_name']} - {g['rtp']}</li>"
+                reply_html += "</ul>"
 
-                highest_game = max(
-                    rtp_games,
-                    key=lambda x: x[0]
-                )[1]
+                return JsonResponse({"reply": reply_html})
 
-
-                return JsonResponse({
-
-                    "reply":
-                    f"🎰 Highest RTP Game\n\n"
-                    f"• {highest_game['game_name']} "
-                    f"— RTP: {highest_game['rtp']}"
-
-                })
-
-
-            return JsonResponse({
-
-                "reply":
-                "No RTP games found."
-
-            })
+            return JsonResponse({"reply": "No RTP games found for that provider."})
 
 
 
@@ -305,80 +270,37 @@ def chat(request):
         if (
             "lowest rtp" in query or
             "low rtp" in query or
-            "worst rtp" in query
+            "worst rtp" in query or
+            "lower rtp" in query
         ):
-
-
-            provider = detect_provider(query)
-
+            provider = detect_provider(query) or "winmatch"
             rtp_games = []
 
-
             for game in ALL_GAMES:
-
-
-                if provider:
-
-                    game_provider = str(
-                        game.get("provider","")
-                    ).lower()
-
-
-                    if game_provider != provider:
-                        continue
-
-
+                game_provider = str(game.get("provider", "")).lower()
+                if game_provider != provider:
+                    continue
 
                 rtp = game.get("rtp")
-
-
                 if rtp:
-
                     try:
-
-                        value = float(
-                            str(rtp)
-                            .replace("%","")
-                            .strip()
-                        )
-
-
-                        rtp_games.append(
-                            (value,game)
-                        )
-
-
+                        value = float(str(rtp).replace("%", "").strip())
+                        rtp_games.append((value, game))
                     except:
                         pass
 
-
-
             if rtp_games:
+                rtp_games.sort(key=lambda x: x[0])
+                bottom_games = rtp_games[:5]
+                
+                reply_html = f"🎰 <b>Lowest RTP Games ({provider.title()})</b><br><br><ul>"
+                for val, g in bottom_games:
+                    reply_html += f"<li>{g['game_name']} - {g['rtp']}</li>"
+                reply_html += "</ul>"
 
+                return JsonResponse({"reply": reply_html})
 
-                lowest_game = min(
-                    rtp_games,
-                    key=lambda x:x[0]
-                )[1]
-
-
-                return JsonResponse({
-
-                    "reply":
-                    f"🎰 Lowest RTP Game\n\n"
-                    f"• {lowest_game['game_name']} "
-                    f"— RTP: {lowest_game['rtp']}"
-
-                })
-
-
-
-            return JsonResponse({
-
-                "reply":
-                "No RTP games found."
-
-            })
+            return JsonResponse({"reply": "No RTP games found for that provider."})
 
 
 
