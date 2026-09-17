@@ -554,38 +554,29 @@ def chat(request):
         )
 
 
-        response = client.chat.complete(
-
-            model="open-mistral-7b",
-
-            temperature=0,
-
-            messages=[
-
-                {
-                    "role":"system",
-                    "content":system_prompt
-                },
-
-                {
-                    "role":"user",
-                    "content":user_message
-                }
-
-            ]
-
-        )
-
-
+        import time
+        max_retries = 3
+        response = None
+        for attempt in range(max_retries):
+            try:
+                response = client.chat.complete(
+                    model="open-mistral-7b",
+                    temperature=0,
+                    messages=[
+                        {"role":"system", "content":system_prompt},
+                        {"role":"user", "content":user_message}
+                    ]
+                )
+                break
+            except Exception as e:
+                print(f"Mistral API error on attempt {attempt+1}: {e}")
+                if attempt == max_retries - 1:
+                    raise e
+                time.sleep(2)
 
         return JsonResponse({
-
             "reply":
-            response
-            .choices[0]
-            .message
-            .content
-
+            response.choices[0].message.content
         })
 
 
