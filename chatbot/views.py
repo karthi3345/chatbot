@@ -149,29 +149,9 @@ from django.shortcuts import render, redirect
 from .models import Visitor
 
 # =====================================================
-# HOME PAGE (CAPTURE FORM)
+# HOME PAGE
 # =====================================================
 def home(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        if name:
-            Visitor.objects.create(name=name, email=email)
-            request.session['has_registered'] = True
-            return redirect('/chat-ui/')
-    
-    # If they already registered this session, skip the form
-    if request.session.get('has_registered'):
-        return redirect('/chat-ui/')
-        
-    return render(request, "chatbot/capture.html")
-
-# =====================================================
-# CHAT UI
-# =====================================================
-def chat_ui(request):
-    if not request.session.get('has_registered'):
-        return redirect('/')
     return render(request, "chatbot/index.html")
 
 # =====================================================
