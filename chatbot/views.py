@@ -232,13 +232,14 @@ def chat(request):
             "top rtp" in query or
             "higher rtp" in query
         ):
-            provider = detect_provider(query) or "winmatch"
+            provider = detect_provider(query)
             rtp_games = []
 
             for game in ALL_GAMES:
-                game_provider = str(game.get("provider", "")).lower()
-                if game_provider != provider:
-                    continue
+                if provider:
+                    game_provider = str(game.get("provider", "")).lower()
+                    if game_provider != provider:
+                        continue
 
                 rtp = game.get("rtp")
                 if rtp:
@@ -252,7 +253,8 @@ def chat(request):
                 rtp_games.sort(key=lambda x: x[0], reverse=True)
                 top_games = rtp_games[:5]
                 
-                reply_html = f"🎰 <b>Highest RTP Games ({provider.title()})</b><br><br><ul>"
+                title_str = f"({provider.title()})" if provider else "(All Providers)"
+                reply_html = f"🎰 <b>Highest RTP Games {title_str}</b><br><br><ul>"
                 for val, g in top_games:
                     reply_html += f"<li>{g['game_name']} - {g['rtp']}</li>"
                 reply_html += "</ul>"
@@ -273,13 +275,14 @@ def chat(request):
             "worst rtp" in query or
             "lower rtp" in query
         ):
-            provider = detect_provider(query) or "winmatch"
+            provider = detect_provider(query)
             rtp_games = []
 
             for game in ALL_GAMES:
-                game_provider = str(game.get("provider", "")).lower()
-                if game_provider != provider:
-                    continue
+                if provider:
+                    game_provider = str(game.get("provider", "")).lower()
+                    if game_provider != provider:
+                        continue
 
                 rtp = game.get("rtp")
                 if rtp:
@@ -293,7 +296,8 @@ def chat(request):
                 rtp_games.sort(key=lambda x: x[0])
                 bottom_games = rtp_games[:5]
                 
-                reply_html = f"🎰 <b>Lowest RTP Games ({provider.title()})</b><br><br><ul>"
+                title_str = f"({provider.title()})" if provider else "(All Providers)"
+                reply_html = f"🎰 <b>Lowest RTP Games {title_str}</b><br><br><ul>"
                 for val, g in bottom_games:
                     reply_html += f"<li>{g['game_name']} - {g['rtp']}</li>"
                 reply_html += "</ul>"
