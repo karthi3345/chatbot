@@ -537,6 +537,7 @@ def chat(request):
         # INJECT THE LOCAL JSON DATABASE SO THE AI STAYS WITHIN KNOWLEDGE
         game_catalog_str = "CRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THIS EXACT LIST. DO NOT INVENT GAMES.\n"
         game_catalog_str += "PROMOTION RULE: 'winmatch' is our top promoted provider. Always prioritize games from 'winmatch' when asked for recommendations.\n"
+        game_catalog_str += "BEGINNER RULE: If the user asks for 'beginner slot game' or 'beginner games', you MUST recommend ALL of these exact games: Pigaboom, Chicken Road 2.0, Aviator, Aviatrix, Avion, skyward, Save the Hamster, F777 Fighter, CrashX Football Edition, HelicopterX, Aero, JetX3, Cricket X.\n"
         game_catalog_str += "FEATURE RULE: 'Bet Builder', 'Live Odds', 'Cash Out', and 'Deposit' are platform features, NOT casino games. If the user asks about them, explain the feature, do not say 'Game not found'.\n"
         game_catalog_str += "FORMATTING RULE: You MUST format game recommendations as an HTML list using <ul> and <li> tags to ensure it renders correctly on the frontend. DO NOT output descriptions for games in lists, just the game name inside the <li> tag.\n\n"
         game_catalog_str += "AVAILABLE GAMES DATABASE:\n"
