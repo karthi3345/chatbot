@@ -49,7 +49,7 @@ def load_json(filepath, label):
         with open(filepath, "r", encoding="utf-8") as f:
             return list(json.load(f).values())
     except FileNotFoundError:
-        print(f"⚠️ {label} not found!")
+        print(f"[!] {label} not found!")
         return []
 
 MOJOS_GAMES = load_json(MOJOS_FILE, "7mojos.json")
@@ -77,7 +77,7 @@ EZUGI_GAMES = load_json(EZUGI_FILE,"ezugi.json")
 ALL_GAMES = MOJOS_GAMES + EVOLUTION_GAMES + BETONGAMES_GAMES + JACKTOP_GAMES + PGSOFT_GAMES + BGAMES_GAMES+BETGAMES_GAMES+WINMATCH_GAMES+ELCASINO_GAMES+TVBET_GAMES+KAGAMING_GAMES+SPRIBE_GAMES+AVIATRIX_GAMES+PIGABOOM_GAMES+SPIN4WIN_GAMES+SMARTSOFT_GAMES+TURBO_GAMES+BGAMING_GAMES+ EZUGI_GAMES
 
 print("=" * 60)
-print("✅ GAME DATABASE LOADED")
+print("OK GAME DATABASE LOADED")
 print(f"7MOJOS GAMES : {len(MOJOS_GAMES)}")
 print(f"EVOLUTION GAMES : {len(EVOLUTION_GAMES)}")
 print(f"BETONGAMES GAMES : {len(BETONGAMES_GAMES)}")
@@ -158,7 +158,7 @@ def chat(request):
         user_message = data.get("message", "").strip()
         assistant = data.get("assistant", "general").lower()
 
-        print(f"\n📩 Message : {user_message}")
+        print(f"\nMessage : {user_message}")
 
         if not user_message:
             return JsonResponse(
@@ -486,7 +486,7 @@ def chat(request):
 
 
             print(
-                f"✅ JSON MATCH : "
+                f"JSON MATCH : "
                 f"{matched_game['game_name']}"
             )
 
@@ -507,7 +507,7 @@ def chat(request):
         # ==========================================
         # MISTRAL FALLBACK
         # ==========================================
-        print("🤖 Calling Mistral...")
+        print("Calling Mistral...")
 
 
         api_key = os.getenv(
@@ -556,7 +556,7 @@ def chat(request):
 
         response = client.chat.complete(
 
-            model="mistral-large-latest",
+            model="open-mistral-7b",
 
             temperature=0,
 
@@ -628,7 +628,7 @@ def cmp_2_games(request):
 
         query = data.get("message", "").strip().lower()
 
-        print("🔥 COMPARE FUNCTION HIT")
+        print("COMPARE FUNCTION HIT")
         print("QUERY:", query)
 
         # Support both:
@@ -739,7 +739,7 @@ def cmp_2_games(request):
         </table>
         """
 
-        print("✅ COMPARISON GENERATED")
+        print("COMPARISON GENERATED")
 
         return JsonResponse({
             "reply": f"📊 Comparing the selected games for you... Please see the comparison table below 👇<br><br>{table_html}"
