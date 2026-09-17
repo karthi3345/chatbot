@@ -535,8 +535,9 @@ def chat(request):
             system_prompt = SYSTEM_PROMPT
 
         # INJECT THE LOCAL JSON DATABASE SO THE AI STAYS WITHIN KNOWLEDGE
-        game_catalog_str = "CRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THIS EXACT LIST. DO NOT INVENT GAMES. DO NOT RECOMMEND GAMES NOT ON THIS LIST.\n"
-        game_catalog_str += "PROMOTION RULE: 'winmatch' is our top promoted provider. Always prioritize and highlight games from the 'winmatch' provider when the user asks for general recommendations, best games, or what to play.\n\n"
+        game_catalog_str = "CRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THIS EXACT LIST. DO NOT INVENT GAMES.\n"
+        game_catalog_str += "PROMOTION RULE: 'winmatch' is our top promoted provider. Always prioritize games from 'winmatch' when asked for recommendations.\n"
+        game_catalog_str += "FORMATTING RULE: You MUST output a clean, vertical bulleted list. Put each game on a NEW LINE. DO NOT output descriptions for games in lists. Just the name.\n\n"
         game_catalog_str += "AVAILABLE GAMES DATABASE:\n"
         for g in ALL_GAMES:
             name = g.get('game_name', 'N/A')
