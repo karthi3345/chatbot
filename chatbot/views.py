@@ -535,7 +535,7 @@ def chat(request):
         for attempt in range(max_retries):
             try:
                 response = client.chat.completions.create(
-                    model="llama3-8b-8192",
+                    model="qwen/qwen3.8-27b",
                     temperature=0,
                     messages=[
                         {"role":"system", "content":system_prompt},
