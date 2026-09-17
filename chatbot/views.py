@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from dotenv import load_dotenv
-from mistralai.client import Mistral
+from groq import Groq
 
 from .prompts import SYSTEM_PROMPT
 from .mojoslc_prompts import MOJOSLC_PROMPT
@@ -505,62 +505,37 @@ def chat(request):
 
 
         # ==========================================
-        # MISTRAL FALLBACK
+        # GROQ FALLBACK
         # ==========================================
-        print("Calling Mistral...")
+        print("Calling Groq...")
 
-
-        api_key = os.getenv(
-            "MISTRAL_API_KEY"
-        )
-
+        api_key = os.getenv("GROQ_API_KEY")
 
         if not api_key:
-
             return JsonResponse({
-
-                "error":
-                "MISTRAL_API_KEY missing"
-
+                "error": "GROQ_API_KEY missing"
             }, status=500)
 
-
-
         if assistant == "7mojos":
-
             system_prompt = MOJOSLC_PROMPT
-
-
         elif assistant == "evolution":
-
             system_prompt = EVOLUTION_PROMPT
-
-
         elif assistant == "pgsoft":
-
             system_prompt = prompts
-
-
         else:
-
             system_prompt = SYSTEM_PROMPT
 
-
-
-
-
-        client = Mistral(
+        client = Groq(
             api_key=api_key
         )
-
 
         import time
         max_retries = 3
         response = None
         for attempt in range(max_retries):
             try:
-                response = client.chat.complete(
-                    model="open-mistral-7b",
+                response = client.chat.completions.create(
+                    model="llama3-8b-8192",
                     temperature=0,
                     messages=[
                         {"role":"system", "content":system_prompt},
@@ -569,7 +544,7 @@ def chat(request):
                 )
                 break
             except Exception as e:
-                print(f"Mistral API error on attempt {attempt+1}: {e}")
+                print(f"Groq API error on attempt {attempt+1}: {e}")
                 if attempt == max_retries - 1:
                     raise e
                 time.sleep(2)
