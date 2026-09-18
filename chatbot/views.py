@@ -459,19 +459,6 @@ def chat(request):
 
 
 
-        # ==========================================
-        # CLOUDFLARE FALLBACK
-        # ==========================================
-        print("Calling Cloudflare Workers AI...")
-
-        account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-        api_token = os.getenv("CLOUDFLARE_API_TOKEN")
-
-        if not account_id or not api_token:
-            return JsonResponse({
-                "error": "Cloudflare credentials missing"
-            }, status=500)
-
         if assistant == "7mojos":
             system_prompt = MOJOSLC_PROMPT
         elif assistant == "evolution":
@@ -499,33 +486,60 @@ def chat(request):
 
         system_prompt = f"{system_prompt}\n\n{game_catalog_str}\n\n{hard_rules}"
 
-        # We use llama-3.1-8b-instruct because it supports a massive 128k context window, which can easily handle the large system prompts
-        url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"
-        headers = {
-            "Authorization": f"Bearer {api_token}",
-            "Content-Type": "application/json"
-        }
-        payload = {
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
-            ]
-        }
-
-        import time
-        max_retries = 3
+        # ==========================================
+        # DUAL AI ENGINE (GEMINI WITH CLOUDFLARE FALLBACK)
+        # ==========================================
         reply_content = None
-        for attempt in range(max_retries):
-            try:
-                res = requests.post(url, headers=headers, json=payload)
-                res.raise_for_status()
-                reply_content = res.json()["result"]["response"]
-                break
-            except Exception as e:
-                print(f"Cloudflare API error on attempt {attempt+1}: {e}\nResponse: {res.text if 'res' in locals() else 'No response'}")
-                if attempt == max_retries - 1:
-                    raise e
-                time.sleep(3 * (attempt + 1))
+        gemini_api_key = os.getenv("GEMINI_API_KEY")
+
+        try:
+            if not gemini_api_key:
+                raise ValueError("Gemini API key not found in environment variables")
+                
+            print("Calling Gemini API...")
+            gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={gemini_api_key}"
+            gemini_payload = {
+                "system_instruction": {"parts": [{"text": system_prompt}]},
+                "contents": [{"role": "user", "parts": [{"text": user_message}]}]
+            }
+            res = requests.post(gemini_url, headers={"Content-Type": "application/json"}, json=gemini_payload)
+            res.raise_for_status()
+            reply_content = res.json()["candidates"][0]["content"]["parts"][0]["text"]
+            
+        except Exception as e:
+            print(f"Gemini API failed: {e}. Falling back to Cloudflare Workers AI...")
+            
+            account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+            api_token = os.getenv("CLOUDFLARE_API_TOKEN")
+            
+            if not account_id or not api_token:
+                return JsonResponse({"error": "Cloudflare and Gemini credentials missing"}, status=500)
+                
+            cf_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"
+            cf_headers = {
+                "Authorization": f"Bearer {api_token}",
+                "Content-Type": "application/json"
+            }
+            cf_payload = {
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message}
+                ]
+            }
+            
+            import time
+            max_retries = 2
+            for attempt in range(max_retries):
+                try:
+                    res = requests.post(cf_url, headers=cf_headers, json=cf_payload)
+                    res.raise_for_status()
+                    reply_content = res.json()["result"]["response"]
+                    break
+                except Exception as cf_e:
+                    print(f"Cloudflare API error on attempt {attempt+1}: {cf_e}")
+                    if attempt == max_retries - 1:
+                        raise cf_e
+                    time.sleep(3)
 
         return JsonResponse({
             "reply": reply_content
