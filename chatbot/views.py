@@ -487,7 +487,7 @@ def chat(request):
         system_prompt = f"{system_prompt}\n\n{game_catalog_str}\n\n{hard_rules}"
 
         # ==========================================
-        # DUAL AI ENGINE (GEMINI WITH CLOUDFLARE FALLBACK)
+        # TRIPLE AI ENGINE (GEMINI -> MISTRAL -> CLOUDFLARE)
         # ==========================================
         reply_content = None
         gemini_api_key = os.getenv("GEMINI_API_KEY")
@@ -507,39 +507,64 @@ def chat(request):
             reply_content = res.json()["candidates"][0]["content"]["parts"][0]["text"]
             
         except Exception as e:
-            print(f"Gemini API failed: {e}. Falling back to Cloudflare Workers AI...")
+            print(f"Gemini API failed: {e}. Falling back to Mistral API...")
+            mistral_api_key = os.getenv("MISTRAL_API_KEY")
             
-            account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
-            api_token = os.getenv("CLOUDFLARE_API_TOKEN")
-            
-            if not account_id or not api_token:
-                return JsonResponse({"error": "Cloudflare and Gemini credentials missing"}, status=500)
+            try:
+                if not mistral_api_key:
+                    raise ValueError("Mistral API key not found in environment variables")
+                    
+                print("Calling Mistral API...")
+                mistral_url = "https://api.mistral.ai/v1/chat/completions"
+                mistral_headers = {
+                    "Authorization": f"Bearer {mistral_api_key}",
+                    "Content-Type": "application/json"
+                }
+                mistral_payload = {
+                    "model": "mistral-large-latest",
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_message}
+                    ]
+                }
+                res = requests.post(mistral_url, headers=mistral_headers, json=mistral_payload)
+                res.raise_for_status()
+                reply_content = res.json()["choices"][0]["message"]["content"]
                 
-            cf_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"
-            cf_headers = {
-                "Authorization": f"Bearer {api_token}",
-                "Content-Type": "application/json"
-            }
-            cf_payload = {
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message}
-                ]
-            }
-            
-            import time
-            max_retries = 2
-            for attempt in range(max_retries):
-                try:
-                    res = requests.post(cf_url, headers=cf_headers, json=cf_payload)
-                    res.raise_for_status()
-                    reply_content = res.json()["result"]["response"]
-                    break
-                except Exception as cf_e:
-                    print(f"Cloudflare API error on attempt {attempt+1}: {cf_e}")
-                    if attempt == max_retries - 1:
-                        raise cf_e
-                    time.sleep(3)
+            except Exception as e2:
+                print(f"Mistral API failed: {e2}. Falling back to Cloudflare Workers AI...")
+                
+                account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+                api_token = os.getenv("CLOUDFLARE_API_TOKEN")
+                
+                if not account_id or not api_token:
+                    return JsonResponse({"error": "All AI engine credentials missing"}, status=500)
+                
+                cf_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"
+                cf_headers = {
+                    "Authorization": f"Bearer {api_token}",
+                    "Content-Type": "application/json"
+                }
+                cf_payload = {
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_message}
+                    ]
+                }
+                
+                import time
+                max_retries = 2
+                for attempt in range(max_retries):
+                    try:
+                        res = requests.post(cf_url, headers=cf_headers, json=cf_payload)
+                        res.raise_for_status()
+                        reply_content = res.json()["result"]["response"]
+                        break
+                    except Exception as cf_e:
+                        print(f"Cloudflare API error on attempt {attempt+1}: {cf_e}")
+                        if attempt == max_retries - 1:
+                            raise cf_e
+                        time.sleep(3)
 
         return JsonResponse({
             "reply": reply_content
