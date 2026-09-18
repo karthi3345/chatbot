@@ -525,7 +525,7 @@ def chat(request):
                 print(f"Cloudflare API error on attempt {attempt+1}: {e}\nResponse: {res.text if 'res' in locals() else 'No response'}")
                 if attempt == max_retries - 1:
                     raise e
-                time.sleep(2)
+                time.sleep(3 * (attempt + 1))
 
         return JsonResponse({
             "reply": reply_content
@@ -548,16 +548,14 @@ def chat(request):
 
 
     except Exception as e:
-
-
         logger.exception(e)
-
-
+        error_msg = str(e)
+        if "429" in error_msg or "Too Many Requests" in error_msg:
+            friendly_msg = "The AI is currently experiencing high traffic. Please wait a few seconds and try again. ⏳"
+            return JsonResponse({"error": friendly_msg}, status=429)
+            
         return JsonResponse({
-
-            "error":
-            f"Something went wrong: {str(e)}"
-
+            "error": f"Something went wrong: {error_msg}"
         }, status=500)
         
         
