@@ -199,11 +199,8 @@
   .chat-body::-webkit-scrollbar{width:6px;}
   .chat-body::-webkit-scrollbar-thumb{background:#23291f;border-radius:6px;}
 
-  .msg-row { position: relative; }
+  .msg-row { position: relative; align-items: center; }
   .reply-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     width: 28px; height: 28px;
     border-radius: 50%;
     background: var(--panel-2);
@@ -213,12 +210,10 @@
     opacity: 0; pointer-events: none;
     transition: all 0.2s;
     cursor: pointer;
-    z-index: 10;
+    flex: none;
   }
   .msg-row:hover .reply-btn { opacity: 1; pointer-events: auto; }
-  .msg-row.bot .reply-btn { right: -35px; }
-  .msg-row.user .reply-btn { left: -35px; }
-  .reply-btn:hover { color: var(--green-bright); border-color: var(--green-bright); }
+  .reply-btn:hover { color: var(--green-bright); border-color: var(--green-bright); background: #161b14; }
 
 
   .bubble h1,
@@ -408,8 +403,8 @@
     
     const attHtml = attachment ? renderAttachment(attachment, 'msg-attachment') : '';
     row.innerHTML = `
-      <button class="reply-btn" onclick="setReply(this.parentElement)">${replyIconSvg}</button>
       <div class="bubble">${quotedHtml}${attHtml}${text ? text : ''}<span class="ts">${timeNow()} ✓✓</span></div>
+      <button class="reply-btn" onclick="setReply(this.parentElement)">${replyIconSvg}</button>
     `;
     chatBody.appendChild(row);
     scrollToBottom();
