@@ -179,9 +179,31 @@
   .chat-body::-webkit-scrollbar{width:6px;}
   .chat-body::-webkit-scrollbar-thumb{background:#23291f;border-radius:6px;}
 
+  .msg-row { position: relative; }
+  .reply-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .msg-row:hover .reply-btn { opacity: 1; pointer-events: auto; }
+  .msg-row.bot .reply-btn { right: -35px; }
+  .msg-row.user .reply-btn { left: -35px; }
+  .reply-btn:hover { color: var(--green-bright); border-color: var(--green-bright); }
+
   @media (max-width: 600px){
     .page-wrap{padding:16px 12px 10px;}
     .chat-panel{height:90vh;max-height:90vh;}
+    .reply-btn { display: none; /* simpler for mobile to avoid overlap, or could use swipe */ }
   }
 </style>
 </head>
@@ -230,6 +252,7 @@
 
     <div class="chat-input-wrap">
       <div class="attach-preview" id="attachPreview" style="display:none;"></div>
+      <div class="attach-preview" id="replyPreview" style="display:none; background: rgba(43,211,92,0.05); border-left: 3px solid var(--green-bright);"></div>
       <div class="chat-input">
         <button class="icon-btn" id="attachBtn" title="Upload file">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.4 11.1l-8.9 8.9a5 5 0 01-7.1-7.1l8.5-8.5a3.5 3.5 0 014.9 4.9l-8.1 8.1a2 2 0 01-2.8-2.8l7.4-7.4"/></svg>
@@ -261,6 +284,34 @@
   const chatInput = document.getElementById('chatInput');
   const sendBtn = document.getElementById('sendBtn');
   const botSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="#06250f" stroke-width="2"><circle cx="12" cy="13" r="6"/><path d="M12 7V4M9 13h.01M15 13h.01M9 16h6"/></svg>`;
+  const replyIconSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l5-5v3h8a4 4 0 014 4v5h-2v-5a2 2 0 00-2-2H8v3l-5-5z"/></svg>`;
+
+  let pendingReply = null;
+  const replyPreview = document.getElementById('replyPreview');
+
+  function setReply(element) {
+    let text = element.dataset.content;
+    if (!text) {
+      // try to extract from bubble if not in dataset
+      const bubble = element.querySelector('.bubble');
+      text = bubble ? bubble.innerText.replace(timeNow() + ' ✓✓', '').replace(timeNow(), '').trim() : '';
+    }
+    if (!text) return;
+    pendingReply = text.replace(/<[^>]*>?/gm, ''); // strip html
+    replyPreview.style.display = 'flex';
+    replyPreview.innerHTML = `
+      <div class="file-ic" style="background:transparent;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l5-5v3h8a4 4 0 014 4v5h-2v-5a2 2 0 00-2-2H8v3l-5-5z"/></svg></div>
+      <span class="file-name" style="color:var(--muted)">Replying to: ${pendingReply.substring(0, 40)}...</span>
+      <button class="file-remove" onclick="clearReply()">✕</button>
+    `;
+    chatInput.focus();
+  }
+
+  function clearReply() {
+    pendingReply = null;
+    replyPreview.style.display = 'none';
+    replyPreview.innerHTML = '';
+  }
 
   function scrollToBottom(){ chatBody.scrollTop = chatBody.scrollHeight; }
 
@@ -272,13 +323,22 @@
     return `${h}:${m.toString().padStart(2,'0')} ${ampm}`;
   }
 
-  function addUserMessage(text, attachment){
+  function addUserMessage(text, attachment, replyTo){
     const row = document.createElement('div');
     row.className = 'msg-row user';
     row.dataset.role = 'user';
     row.dataset.content = text || '';
+    
+    let quotedHtml = '';
+    if (replyTo) {
+      quotedHtml = `<div style="background:rgba(0,0,0,0.15); border-left:3px solid var(--green-bright); padding:6px 10px; border-radius:4px; font-size:12.5px; margin-bottom:8px; color:rgba(255,255,255,0.7);">${replyTo.substring(0, 60)}${replyTo.length>60?'...':''}</div>`;
+    }
+    
     const attHtml = attachment ? renderAttachment(attachment, 'msg-attachment') : '';
-    row.innerHTML = `<div class="bubble">${attHtml}${text ? text : ''}<span class="ts">${timeNow()} ✓✓</span></div>`;
+    row.innerHTML = `
+      <button class="reply-btn" onclick="setReply(this.parentElement)">${replyIconSvg}</button>
+      <div class="bubble">${quotedHtml}${attHtml}${text ? text : ''}<span class="ts">${timeNow()} ✓✓</span></div>
+    `;
     chatBody.appendChild(row);
     scrollToBottom();
   }
@@ -299,7 +359,11 @@
     row.className = 'msg-row bot';
     row.dataset.role = 'assistant';
     row.dataset.content = text;
-    row.innerHTML = `<div class="m-avatar">${botSvg}</div><div class="bubble">${text}<span class="ts">${timeNow()}</span></div>`;
+    row.innerHTML = `
+      <div class="m-avatar">${botSvg}</div>
+      <div class="bubble">${text}<span class="ts">${timeNow()}</span></div>
+      <button class="reply-btn" onclick="setReply(this.parentElement)">${replyIconSvg}</button>
+    `;
     chatBody.appendChild(row);
     scrollToBottom();
   }
@@ -312,11 +376,16 @@
   }
 
   // ✅ NEW: API-based chat function
-  async function handleQuestion(q, attachment) {
+  async function handleQuestion(q, attachment, replyText) {
     if (!q && !attachment) return;
     
-    addUserMessage(q, attachment);
+    addUserMessage(q, attachment, replyText);
     addBotTyping();
+    
+    let finalQuery = q;
+    if (replyText && q) {
+      finalQuery = `[Replying to: "${replyText}"]\n\n${q}`;
+    }
     
     if (attachment && !q) {
       setTimeout(() => addBotMessage(
@@ -332,7 +401,7 @@
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: q
+          message: finalQuery
         })
       });
       
@@ -352,7 +421,7 @@
 
   // Popular questions click handlers
   document.querySelectorAll('.pq-btn').forEach(btn => {
-    btn.addEventListener('click', () => handleQuestion(btn.dataset.q));
+    btn.addEventListener('click', () => handleQuestion(btn.dataset.q, null, null));
   });
 
   // File attachment handling
@@ -392,9 +461,10 @@
   sendBtn.addEventListener('click', () => {
     const val = chatInput.value.trim();
     if(!val && !pendingAttachment) return;
-    handleQuestion(val, pendingAttachment);
+    handleQuestion(val, pendingAttachment, pendingReply);
     chatInput.value = '';
     clearAttachment();
+    clearReply();
   });
   
   // Enter key
@@ -404,7 +474,9 @@
 
   // Quick chips
   document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => handleQuestion(chip.textContent.trim().replace(/^[^\w]+/, '')));
+    chip.addEventListener('click', () => {
+      handleQuestion(chip.textContent.trim().replace(/^[^\w]+/, ''), null, null);
+    });
   });
 
   // Delete chat
@@ -413,6 +485,8 @@
     const typingRow = document.getElementById('typingRow');
     if(typingRow) typingRow.remove();
     chatBody.scrollTop = 0;
+    clearReply();
+    clearAttachment();
   });
 </script>
 </body>
