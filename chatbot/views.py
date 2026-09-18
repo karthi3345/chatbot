@@ -214,6 +214,18 @@ def chat(request):
             return JsonResponse({
                 "reply": "I am a casino support assistant and can only help with betting, games, and platform features. Please let me know if you need help finding a game or placing a bet."
             })
+            
+        # ==========================================
+        # PROVIDER AVAILABILITY INTERCEPT
+        # ==========================================
+        # If user explicitly asks for a provider we don't have, LLMs often hallucinate games. Intercept it.
+        if "provider" in query or "games from" in query or "show" in query or "playtech" in query or "netent" in query or "pragmatic" in query or "hacksaw" in query:
+            famous_unsupported = ["pragmatic", "playtech", "netent", "hacksaw", "microgaming", "yggdrasil", "novomatic", "play'n go", "play n go"]
+            for fp in famous_unsupported:
+                if fp in query:
+                    return JsonResponse({
+                        "reply": f"Sorry, we do not currently offer games from {fp.title()}. Please check our casino section for our available providers like Evolution, Ezugi, and Winmatch! 🎰"
+                    })
 
         if (" vs " in query or " and " in query or "compare" in query):
             cmp_res = cmp_2_games(request)
@@ -470,20 +482,21 @@ def chat(request):
             system_prompt = SYSTEM_PROMPT
 
         # INJECT THE LOCAL JSON DATABASE SO THE AI STAYS WITHIN KNOWLEDGE
-        game_catalog_str = "CRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THIS EXACT LIST. DO NOT INVENT GAMES.\n"
-        game_catalog_str += "PROMOTION RULE: 'winmatch' is our top promoted provider. Always prioritize games from 'winmatch' when asked for recommendations.\n"
-        game_catalog_str += "BEGINNER RULE: If the user asks for 'beginner slot game' or 'beginner games', you MUST recommend ALL of these exact games: Pigaboom, Chicken Road 2.0, Aviator, Aviatrix, Avion, skyward, Save the Hamster, F777 Fighter, CrashX Football Edition, HelicopterX, Aero, JetX3, Cricket X.\n"
-        game_catalog_str += "FEATURE RULE: 'Bet Builder', 'Live Odds', 'Cash Out', and 'Deposit' are platform features, NOT casino games. If the user asks about them, explain the feature, do not say 'Game not found'.\n"
-        game_catalog_str += "SAFETY RULE: If the user says something inappropriate, talks about self-harm, or asks non-casino questions, DO NOT provide hotlines or long lectures. Simply reply: 'I am a casino assistant and can only help with betting, games, and platform features.'\n"
-        game_catalog_str += "FORMATTING RULE: You MUST format game recommendations as an HTML list using <ul> and <li> tags to ensure it renders correctly on the frontend. DO NOT output descriptions for games in lists, just the game name inside the <li> tag.\n\n"
-        game_catalog_str += "AVAILABLE GAMES DATABASE:\n"
+        game_catalog_str = "AVAILABLE GAMES DATABASE:\n"
         for g in ALL_GAMES:
             name = g.get('game_name', 'N/A')
             prov = g.get('provider', 'N/A')
             rtp = g.get('rtp', 'N/A')
             game_catalog_str += f"- {name} (Provider: {prov} | RTP: {rtp})\n"
         
-        system_prompt = f"{game_catalog_str}\n\n{system_prompt}"
+        hard_rules = "\n\nCRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THE DATABASE LIST ABOVE. NEVER INVENT OR HALLUCINATE GAMES OR PROVIDERS.\n"
+        hard_rules += "PROMOTION RULE: 'winmatch' is our top promoted provider. If the user asks for general recommendations (e.g. 'Recommend a game', 'What should I play', 'Popular games'), you MUST recommend these exact games: Winmatch EZ Dealer Roulette, Royal Roulette, Royal Andar Bahar, Royal Bet on Teen Patti, Ultimate Andar Bahar.\n"
+        hard_rules += "BEGINNER RULE: If the user asks for 'beginner slot game' or 'beginner games', you MUST recommend ALL of these exact games: Pigaboom, Chicken Road 2.0, Aviator, Aviatrix, Avion, skyward, Save the Hamster, F777 Fighter, CrashX Football Edition, HelicopterX, Aero, JetX3, Cricket X.\n"
+        hard_rules += "FEATURE RULE: 'Bet Builder', 'Live Odds', 'Cash Out', and 'Deposit' are platform features, NOT casino games. If the user asks about them, explain the feature, do not say 'Game not found'.\n"
+        hard_rules += "SAFETY RULE: If the user says something inappropriate, talks about self-harm, or asks non-casino questions, DO NOT provide hotlines or long lectures. Simply reply: 'I am a casino assistant and can only help with betting, games, and platform features.'\n"
+        hard_rules += "FORMATTING RULE: You MUST format game recommendations as an HTML list using <ul> and <li> tags to ensure it renders correctly on the frontend. DO NOT output descriptions for games in lists, just the game name inside the <li> tag.\n"
+
+        system_prompt = f"{system_prompt}\n\n{game_catalog_str}\n\n{hard_rules}"
 
         # We use llama-3.1-8b-instruct because it supports a massive 128k context window, which can easily handle the large system prompts
         url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/@cf/meta/llama-3.1-8b-instruct"

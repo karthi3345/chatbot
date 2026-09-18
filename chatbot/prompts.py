@@ -520,17 +520,12 @@ Response Format:
 
 🔥 Available Crash Games
 
-🎮 Chicken Road
-🎮 Aviator
-🎮 Aviatrix
-🎮 Skyward
-🎮 Save the Hamster
-🎮 F777 Fighter
-🎮 CrashX Football Edition
-🎮 HelicopterX
-🎮 Aero
-🎮 JetX3
-🎮 Cricket X
+<ul>
+<li>Chicken Road</li>
+<li>Aviator</li>
+<li>Aviatrix</li>
+<li>Skyward</li>
+</ul>
 
 RECOMMENDED_GAMES_RULE
 
@@ -569,7 +564,7 @@ Then:
 7. Do NOT show provider names.
 8. Do NOT show duplicate game names.
 9. Do NOT use cards, tables, grids, numbering, or separators.
-10. Use a simple bullet list format.
+10. Use an HTML list format (<ul> and <li>).
 11. If available, include a separate "🆕 New Games" section.
 12. Never generate or invent game names.
 
@@ -577,24 +572,13 @@ Response Format:
 
 🔥 Recommended Games
 
-- Pigaboom
-- VORTEX
-- Chicken Road
-- Bollywood Romance
-- Happy Indian Chef
-- Snow Queen
-- Snow White
-- Akbar & Birbal
-- Goddess of War
-- Magic Wheel
-- Vampire Senpai
-- Plinko
-
-🆕 New Games
-
-- Pigaboom
-- VORTEX
-- Chicken Road
+<ul>
+<li>Pigaboom</li>
+<li>VORTEX</li>
+<li>Chicken Road</li>
+<li>Bollywood Romance</li>
+<li>Happy Indian Chef</li>
+</ul>
 
 Use only game names available in the JSON/database.
 
@@ -632,20 +616,13 @@ Response Format:
 
 🎲 Popular Live Casino Providers
 
-- Winmatch
-- Ezugi
-- Evolution
-- Xpg
-- Playtech
-- Tvbet
-- Bgames
-- 7mojos
-- Jacktop
-- Elcasino
-- ALG
-- Luckystreak
-- Iconic21
-- Everest
+<ul>
+<li>Winmatch</li>
+<li>Ezugi</li>
+<li>Evolution</li>
+<li>Xpg</li>
+<li>Playtech</li>
+</ul>
 
 Use only providers available in the JSON/database.
 
@@ -689,46 +666,12 @@ Response Format:
 
 🎰 Popular Slot Providers
 
-- Spribe → https://winmatch360.com/slots?p=spribe
-- Aviatrix → https://winmatch360.com/slots?p=aviatrix
-- Red Tiger → https://winmatch360.com/slots?p=red-tiger
-- NetEnt → https://winmatch360.com/slots?p=netent
-- PG Soft → https://winmatch360.com/slots?p=pgsoft
-- Bgames → https://winmatch360.com/slots?p=bgames
-- 7Mojos → https://winmatch360.com/slots?p=7mojos
-- Jacktop → https://winmatch360.com/slots?p=jacktop
-- Pigaboom → https://winmatch360.com/slots?p=pigaboom
-- Betongames → https://winmatch360.com/slots?p=betongames
-- KaGaming → https://winmatch360.com/slots?p=kagaming
-- BGaming → https://winmatch360.com/slots?p=bgaming
-- 1Spin4Win → https://winmatch360.com/slots?p=1spin4win
-- Belatra → https://winmatch360.com/slots?p=belatra
-- Booming → https://winmatch360.com/slots?p=booming
-- BSG → https://winmatch360.com/slots?p=bsg
-- Endorphina → https://winmatch360.com/slots?p=endorphina
-- EveryMatrix → https://winmatch360.com/slots?p=everymatrix
-- Evoplay → https://winmatch360.com/slots?p=evoplay
-- GameArt → https://winmatch360.com/slots?p=gameart
-- Habanero → https://winmatch360.com/slots?p=habanero
-- Kalamba → https://winmatch360.com/slots?p=kalamba
-- Mancala → https://winmatch360.com/slots?p=mancala
-- Mascot → https://winmatch360.com/slots?p=mascot
-- MrSlotty → https://winmatch360.com/slots?p=mrslotty
-- NetGame → https://winmatch360.com/slots?p=netgame
-- Onlyplay → https://winmatch360.com/slots?p=onlyplay
-- Nucleus → https://winmatch360.com/slots?p=nucleus
-- Platipus → https://winmatch360.com/slots?p=platipus
-- Thunderkick → https://winmatch360.com/slots?p=thunderkick
-- Quickspin → https://winmatch360.com/slots?p=quickspin
-- TurboGames → https://winmatch360.com/slots?p=turbogames
-- Fantasma → https://winmatch360.com/slots?p=fantasma
-- Swintt → https://winmatch360.com/slots?p=swintt
-- Gamzix → https://winmatch360.com/slots?p=gamzix
-- Spadegaming → https://winmatch360.com/slots?p=spadegaming
-- SmartSoft → https://winmatch360.com/slots?p=smartsoft
-- RubyPlay → https://winmatch360.com/slots?p=rubyplay
-- Playtech → https://winmatch360.com/slots?p=playtech
-- Hacksaw → https://winmatch360.com/slots?p=hacksaw
+<ul>
+<li>Spribe → https://winmatch360.com/slots?p=spribe</li>
+<li>Aviatrix → https://winmatch360.com/slots?p=aviatrix</li>
+<li>Red Tiger → https://winmatch360.com/slots?p=red-tiger</li>
+<li>NetEnt → https://winmatch360.com/slots?p=netent</li>
+</ul>
 
 Use only providers available in the JSON/database.
 
