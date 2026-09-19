@@ -820,7 +820,7 @@ def best_crash_games(mode="best"):
     },
     {
         "game_name": "Chicken Road",
-        "provider": "Ezugi",
+        "provider": "InOut",
         "rtp": "96%",
         "description": "A fun crash game where players cash out before the chicken gets squashed.",
         "unique": "Funny chicken-crossing theme with fast gameplay."
@@ -887,7 +887,7 @@ def best_crash_games(mode="best"):
 
     <tr>
         <td>Chicken Road</td>
-        <td>Winmatch</td>
+        <td>InOut</td>
         <td>96%</td>
         <td>Cash out before the chicken gets squashed.</td>
         <td>Funny chicken-crossing theme.</td>

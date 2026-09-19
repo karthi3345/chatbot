@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -132,10 +132,10 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# # For Vercel Serverless Deployment
-# import os
-# if os.getenv('VERCEL'):
-#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#     STATIC_URL = '/static/'
-#     # Vercel handles media differently, usually we skip local media in serverless
-#     MEDIA_ROOT = '/tmp/media'
+# For Vercel Serverless Deployment
+import os
+if os.getenv('VERCEL'):
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+    # Vercel handles media differently, usually we skip local media in serverless
+    MEDIA_ROOT = '/tmp/media'
