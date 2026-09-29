@@ -3,3 +3,4 @@ python-dotenv
 requests
 gunicorn
 whitenoise
+chromadb==1.5.9

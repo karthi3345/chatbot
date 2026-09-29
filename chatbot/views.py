@@ -79,13 +79,15 @@ BGAMING_GAMES=load_json(BGAMING_FILE,"bgames.json")
 
 EZUGI_GAMES = load_json(EZUGI_FILE,"ezugi.json")
 
-FAQ_FILE = os.path.join(BASE_DIR, "chatbot", "winmatch_faq.json")
-try:
-    with open(FAQ_FILE, "r", encoding="utf-8") as f:
-        WINMATCH_FAQ = json.load(f)
-except FileNotFoundError:
-    WINMATCH_FAQ = []
+import chromadb
 
+try:
+    FAQ_DB_PATH = os.path.join(BASE_DIR, "chatbot", "faq_vectordb")
+    chroma_client = chromadb.PersistentClient(path=FAQ_DB_PATH)
+    faq_collection = chroma_client.get_or_create_collection(name='winmatch_faqs')
+except Exception as e:
+    logger.error(f"Failed to load ChromaDB: {e}")
+    faq_collection = None
 
 ALL_GAMES = MOJOS_GAMES + EVOLUTION_GAMES + BETONGAMES_GAMES + JACKTOP_GAMES + PGSOFT_GAMES + BGAMES_GAMES+BETGAMES_GAMES+WINMATCH_GAMES+ELCASINO_GAMES+TVBET_GAMES+KAGAMING_GAMES+SPRIBE_GAMES+AVIATRIX_GAMES+PIGABOOM_GAMES+SPIN4WIN_GAMES+SMARTSOFT_GAMES+TURBO_GAMES+BGAMING_GAMES+ EZUGI_GAMES
 
@@ -494,12 +496,18 @@ def chat(request):
         hard_rules += "FAQ RULE: If a user asks a general question about Winmatch (e.g., deposits, withdrawals, password reset, affiliate program), refer to the WINMATCH FAQ section below and provide an accurate and concise answer based strictly on the provided FAQ. If the question is not answered by the FAQ, say 'I can only assist with the games and platform features currently available on Winmatch.'\n"
         hard_rules += "VIP RULE: If the user asks anything about VIP, VIP membership, or VIP benefits, you MUST provide them with this exact link: <a href='https://winmatch360.com/vip' target='_blank'>https://winmatch360.com/vip</a> and instruct them to visit the page for more details.\n"
 
-        faq_str = "\n\nWINMATCH FAQ:\n"
-        for idx, faq_item in enumerate(WINMATCH_FAQ):
-            faq_q = faq_item.get('question', '')
-            faq_a = faq_item.get('answer', '')
-            if faq_q and faq_a:
-                faq_str += f"Q: {faq_q}\nA: {faq_a}\n\n"
+        faq_str = "\n\nWINMATCH FAQ CONTEXT:\n"
+        if faq_collection:
+            try:
+                results = faq_collection.query(
+                    query_texts=[user_message],
+                    n_results=3
+                )
+                if results and results['documents'] and results['documents'][0]:
+                    for doc in results['documents'][0]:
+                        faq_str += f"{doc}\n\n"
+            except Exception as e:
+                logger.error(f"Vector DB query failed: {e}")
 
         system_prompt = f"{system_prompt}\n\n{game_catalog_str}\n\n{hard_rules}{faq_str}"
 
