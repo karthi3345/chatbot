@@ -492,6 +492,7 @@ def chat(request):
         hard_rules += "SAFETY RULE: If the user says something inappropriate, talks about self-harm, or asks non-casino questions, DO NOT provide hotlines or long lectures. Simply reply: 'I am a casino assistant and can only help with betting, games, and platform features.'\n"
         hard_rules += "FORMATTING RULE: You MUST format game recommendations as an HTML list using <ul> and <li> tags to ensure it renders correctly on the frontend. DO NOT output descriptions for games in lists, just the game name inside the <li> tag.\n"
         hard_rules += "FAQ RULE: If a user asks a general question about Winmatch (e.g., deposits, withdrawals, password reset, affiliate program), refer to the WINMATCH FAQ section below and provide an accurate and concise answer based strictly on the provided FAQ. If the question is not answered by the FAQ, say 'I can only assist with the games and platform features currently available on Winmatch.'\n"
+        hard_rules += "VIP RULE: If the user asks anything about VIP, VIP membership, or VIP benefits, you MUST provide them with this exact link: <a href='https://winmatch360.com/vip' target='_blank'>https://winmatch360.com/vip</a> and instruct them to visit the page for more details.\n"
 
         faq_str = "\n\nWINMATCH FAQ:\n"
         for idx, faq_item in enumerate(WINMATCH_FAQ):
