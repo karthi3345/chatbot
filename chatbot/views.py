@@ -85,9 +85,15 @@ try:
     FAQ_DB_PATH = os.path.join(BASE_DIR, "chatbot", "faq_vectordb")
     chroma_client = chromadb.PersistentClient(path=FAQ_DB_PATH)
     faq_collection = chroma_client.get_or_create_collection(name='winmatch_faqs')
+    
+    GAMES_DB_PATH = os.path.join(BASE_DIR, "chatbot", "games_vectordb")
+    games_client = chromadb.PersistentClient(path=GAMES_DB_PATH)
+    games_collection = games_client.get_or_create_collection(name='casino_games')
+    
 except Exception as e:
     logger.error(f"Failed to load ChromaDB: {e}")
     faq_collection = None
+    games_collection = None
 
 ALL_GAMES = MOJOS_GAMES + EVOLUTION_GAMES + BETONGAMES_GAMES + JACKTOP_GAMES + PGSOFT_GAMES + BGAMES_GAMES+BETGAMES_GAMES+WINMATCH_GAMES+ELCASINO_GAMES+TVBET_GAMES+KAGAMING_GAMES+SPRIBE_GAMES+AVIATRIX_GAMES+PIGABOOM_GAMES+SPIN4WIN_GAMES+SMARTSOFT_GAMES+TURBO_GAMES+BGAMING_GAMES+ EZUGI_GAMES
 
@@ -478,13 +484,21 @@ def chat(request):
         else:
             system_prompt = SYSTEM_PROMPT
 
-        # INJECT THE LOCAL JSON DATABASE SO THE AI STAYS WITHIN KNOWLEDGE
-        game_catalog_str = "AVAILABLE GAMES DATABASE:\n"
-        for g in ALL_GAMES:
-            name = g.get('game_name', 'N/A')
-            prov = g.get('provider', 'N/A')
-            rtp = g.get('rtp', 'N/A')
-            game_catalog_str += f"- {name} (Provider: {prov} | RTP: {rtp})\n"
+        # INJECT RAG-RELEVANT GAMES SO THE AI STAYS WITHIN KNOWLEDGE
+        game_catalog_str = "RELEVANT GAMES FROM DATABASE CONTEXT:\n"
+        if games_collection:
+            try:
+                game_results = games_collection.query(
+                    query_texts=[user_message],
+                    n_results=15
+                )
+                if game_results and game_results['documents'] and game_results['documents'][0]:
+                    for doc in game_results['documents'][0]:
+                        # doc looks like "Game Name: X\nProvider: Y\nRTP: Z"
+                        game_catalog_str += f"- {doc.replace(chr(10), ' | ')}\n"
+            except Exception as e:
+                logger.error(f"Games Vector DB query failed: {e}")
+
         
         hard_rules = "\n\nCRITICAL RULE: YOU MUST ONLY RECOMMEND GAMES FROM THE DATABASE LIST ABOVE. NEVER INVENT OR HALLUCINATE GAMES OR PROVIDERS.\n"
         hard_rules += "PROMOTION RULE: 'winmatch' is our top promoted provider. If the user asks for general recommendations (e.g. 'Recommend a game', 'What should I play', 'Popular games'), you MUST recommend these exact games: Winmatch EZ Dealer Roulette, Royal Roulette, Royal Andar Bahar, Royal Bet on Teen Patti, Ultimate Andar Bahar.\n"
