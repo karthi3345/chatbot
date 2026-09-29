@@ -541,7 +541,7 @@ def chat(request):
                 "system_instruction": {"parts": [{"text": system_prompt}]},
                 "contents": [{"role": "user", "parts": [{"text": user_message}]}]
             }
-            res = requests.post(gemini_url, headers={"Content-Type": "application/json"}, json=gemini_payload)
+            res = requests.post(gemini_url, headers={"Content-Type": "application/json"}, json=gemini_payload, timeout=5)
             res.raise_for_status()
             reply_content = res.json()["candidates"][0]["content"]["parts"][0]["text"]
             
@@ -566,7 +566,7 @@ def chat(request):
                         {"role": "user", "content": user_message}
                     ]
                 }
-                res = requests.post(mistral_url, headers=mistral_headers, json=mistral_payload)
+                res = requests.post(mistral_url, headers=mistral_headers, json=mistral_payload, timeout=5)
                 res.raise_for_status()
                 reply_content = res.json()["choices"][0]["message"]["content"]
                 
@@ -595,7 +595,7 @@ def chat(request):
                 max_retries = 2
                 for attempt in range(max_retries):
                     try:
-                        res = requests.post(cf_url, headers=cf_headers, json=cf_payload)
+                        res = requests.post(cf_url, headers=cf_headers, json=cf_payload, timeout=5)
                         res.raise_for_status()
                         reply_content = res.json()["result"]["response"]
                         break
