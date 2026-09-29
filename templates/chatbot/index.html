@@ -3,28 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spinix AI — Smart Betting Assistant</title>
+<title>Winmatch AI — Smart Betting Assistant</title>
 <style>
   :root{
-    --bg: #0a0d0a;
-    --panel: #11150f;
-    --panel-2: #161b14;
-    --border: #232a1f;
-    --green: #2bd35c;
-    --green-bright: #3dff6e;
-    --green-dim: #1d8a3c;
-    --text: #eef1ec;
-    --muted: #8b9388;
-    --gold: #f5c747;
-    --purple-a: #4b1e8c;
-    --purple-b: #1a0f33;
+    --bg: #1c1d22;
+    --panel: #26272e;
+    --panel-2: #2e3038;
+    --border: #43444a;
+    --green: #ffb800;         /* Replaced with Winmatch Yellow */
+    --green-bright: #ffd447;  /* Winmatch Bright Yellow */
+    --green-dim: #cca300;     /* Winmatch Dark Yellow */
+    --text: #ffffff;
+    --muted: #a3a4ab;
+    --gold: #ffb800;
+    --purple-a: #c51a1b;      /* Replaced with Winmatch Red */
+    --purple-b: #6b0c0d;      /* Replaced with Winmatch Dark Red */
     --danger: #ff4d4d;
-    --radius: 14px;
+    --blue: #00b2ff;
+    --radius: 12px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background: radial-gradient(circle at 15% 0%, #0e150d 0%, var(--bg) 45%);
+    background: radial-gradient(circle at 15% 0%, #302a24 0%, var(--bg) 45%);
     color: var(--text);
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
     min-height:100vh;
@@ -58,7 +59,7 @@
   }
   .bot-avatar{
     width:46px;height:46px;border-radius:50%;
-    background: radial-gradient(circle at 35% 30%, #4dffa0, #18a84a);
+    background: radial-gradient(circle at 35% 30%, #ffd95c, #e6a600);
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 0 18px rgba(61,255,110,0.35);
     flex:none;
@@ -85,7 +86,7 @@
   .welcome-row .wtext p{margin:0;color:#c4c9c0;font-size:13.5px;line-height:1.6;}
   .welcome-bot{
     width:90px;height:90px;border-radius:50%;flex:none;
-    background: radial-gradient(circle at 35% 30%, #58ffaa, #1ec24d);
+    background: radial-gradient(circle at 35% 30%, #ffe37d, #ffc000);
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 0 30px rgba(61,255,110,0.3);
   }
@@ -111,7 +112,7 @@
   .msg-row{display:flex;gap:10px;max-width:78%;}
   .msg-row.user{align-self:flex-end;flex-direction:row-reverse;}
   .msg-row .m-avatar{width:32px;height:32px;border-radius:50%;flex:none;
-    background: radial-gradient(circle at 35% 30%, #58ffaa, #1ec24d);
+    background: radial-gradient(circle at 35% 30%, #ffe37d, #ffc000);
     display:flex;align-items:center;justify-content:center;}
   .msg-row .m-avatar svg{width:18px;height:18px;}
   .bubble{
@@ -120,7 +121,7 @@
   }
   .msg-row.bot .bubble{background:var(--panel-2);border:1px solid var(--border);border-top-left-radius:4px;}
   .msg-row.user .bubble{background:linear-gradient(135deg, var(--green), var(--green-dim));
-    color:#06250f;font-weight:500;border-top-right-radius:4px;}
+    color:#1c1d22;font-weight:500;border-top-right-radius:4px;}
   .bubble .ts{display:block;text-align:right;font-size:10.5px;margin-top:6px;opacity:.65;}
   .msg-row.bot .bubble .ts{color:var(--muted);}
   .typing{display:flex;gap:4px;padding:4px 0;}
@@ -183,7 +184,7 @@
   .send-btn{
     width:40px;height:40px;border-radius:10px;
     background:linear-gradient(135deg, var(--green-bright), var(--green));
-    color:#06250f;display:flex;align-items:center;justify-content:center;flex:none;
+    color:#1c1d22;display:flex;align-items:center;justify-content:center;flex:none;
   }
   .quick-chip-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
   .chip{
@@ -287,7 +288,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#06250f" stroke-width="2"><circle cx="12" cy="13" r="6"/><path d="M12 7V4M9 13h.01M15 13h.01M9 16h6"/></svg>
       </div>
       <div>
-        <div class="ch-title">Spinix AI <span style="color:var(--green-bright)">✦</span></div>
+        <div class="ch-title">Winmatch AI <span style="color:var(--green-bright)">✦</span></div>
         <div class="ch-sub">Your smart betting assistant</div>
       </div>
       <button class="delete-chat-btn" id="deleteChatBtn" title="Delete chat">
@@ -300,7 +301,7 @@
       <div class="welcome-row">
         <div class="wtext">
           <h3>👋 Hi Karthik!</h3>
-          <p>Welcome to Spinix! I can help you with betting, games, offers, rules, deposits and more. How can I assist you today?</p>
+          <p>Welcome to Winmatch! I can help you with betting, games, offers, rules, deposits and more. How can I assist you today?</p>
         </div>
         
       </div>
@@ -319,7 +320,7 @@
 
     <div class="chat-input-wrap">
       <div class="attach-preview" id="attachPreview" style="display:none;"></div>
-      <div class="attach-preview" id="replyPreview" style="display:none; background: rgba(43,211,92,0.05); border-left: 3px solid var(--green-bright);"></div>
+      <div class="attach-preview" id="replyPreview" style="display:none; background: rgba(255,184,0,0.05); border-left: 3px solid var(--green-bright);"></div>
       <div class="chat-input">
         <button class="icon-btn" id="attachBtn" title="Upload file">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.4 11.1l-8.9 8.9a5 5 0 01-7.1-7.1l8.5-8.5a3.5 3.5 0 014.9 4.9l-8.1 8.1a2 2 0 01-2.8-2.8l7.4-7.4"/></svg>
@@ -340,7 +341,7 @@
         <div class="chip">💱 Cash Out</div>
       </div>
     </div>
-    <div class="spinix-disclaimer">18+ Play responsibly. Spinix supports responsible gaming. T&amp;C Apply.</div>
+    <div class="spinix-disclaimer">18+ Play responsibly. Winmatch supports responsible gaming. T&amp;C Apply.</div>
   </div>
  
 
