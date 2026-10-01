@@ -167,6 +167,7 @@ from .models import Visitor
 # =====================================================
 # HOME PAGE
 # =====================================================
+@login_required(login_url='/login/')
 def home(request):
     return render(request, "chatbot/index.html")
 
@@ -952,6 +953,7 @@ from .models import ChatSession, ChatMessage
 import json
 
 @csrf_exempt
+@login_required(login_url='/login/')
 def chat(request):
     try:
         data = json.loads(request.body)
@@ -981,3 +983,33 @@ def chat(request):
         return response
     except Exception as e:
         return _chat_logic(request)
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+
+def register_user(request):
+    if request.method == "POST":
+        u = request.POST.get("username")
+        p = request.POST.get("password")
+        if User.objects.filter(username=u).exists():
+            return render(request, "chatbot/register.html", {"error": "Username already exists"})
+        user = User.objects.create_user(username=u, password=p)
+        auth_login(request, user)
+        return redirect("/")
+    return render(request, "chatbot/register.html")
+
+def login_user(request):
+    if request.method == "POST":
+        u = request.POST.get("username")
+        p = request.POST.get("password")
+        user = authenticate(request, username=u, password=p)
+        if user is not None:
+            auth_login(request, user)
+            return redirect("/")
+        else:
+            return render(request, "chatbot/login.html", {"error": "Invalid username or password"})
+    return render(request, "chatbot/login.html")
+
+def logout_user(request):
+    auth_logout(request)
+    return redirect("/login/")

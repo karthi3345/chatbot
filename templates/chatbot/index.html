@@ -315,7 +315,7 @@
         <div class="ch-title">Winmatch AI <span style="color:var(--yellow)">✦</span></div>
         <div class="ch-sub">Your smart betting assistant</div>
       </div>
-      <button class="delete-chat-btn" id="deleteChatBtn" title="Delete chat">
+      <div style="margin-left:auto; display:flex; gap:10px; align-items:center;"><span style="color:var(--muted); font-size:13px;">Logged in as <b>{{ request.user.username }}</b></span><a href="/logout/" class="delete-chat-btn" style="text-decoration:none;"><span>Logout</span></a><button class="delete-chat-btn" id="deleteChatBtn" title="Delete chat">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/><path d="M10 11v6M14 11v6"/></svg>
         <span>Delete chat</span>
       </button>
