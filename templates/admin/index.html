@@ -1,4 +1,4 @@
-﻿{% extends 'admin/base.html' %}
+{% extends 'admin/base.html' %}
 {% load i18n %}
 
 {% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
@@ -72,18 +72,18 @@
         <div class="dash-grid">
             <div class="dash-card">
                 <div class="dash-title">Total Users</div>
-                <div class="dash-val">1,248</div>
-                <div class="dash-green">↑ 12% from last month</div>
+                <div class="dash-val" id="totalUsers">0</div>
+                <div class="dash-green">↑ Active today</div>
             </div>
             <div class="dash-card">
                 <div class="dash-title">Active Chat Sessions</div>
-                <div class="dash-val" id="sessionCount">42</div>
-                <div class="dash-green">↑ 5% from last week</div>
+                <div class="dash-val" id="sessionCount">0</div>
+                <div class="dash-green">↑ Connected</div>
             </div>
             <div class="dash-card">
                 <div class="dash-title">Messages Processed</div>
-                <div class="dash-val" id="msgCount">3,892</div>
-                <div class="dash-blue">Consistent traffic</div>
+                <div class="dash-val" id="msgCount">0</div>
+                <div class="dash-blue">Real-time data</div>
             </div>
             <div class="dash-card">
                 <div class="dash-title">Conversion Rate</div>
@@ -137,15 +137,15 @@
             Chart.defaults.scale.grid.color = gridColor;
             Chart.defaults.scale.grid.borderColor = gridColor;
 
-            // Bar Chart Config
+            // Initialize Charts with empty data
             const barCtx = document.getElementById('barChart').getContext('2d');
-            new Chart(barCtx, {
+            const barChart = new Chart(barCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    labels: [],
                     datasets: [{
-                        label: 'New Users',
-                        data: [65, 89, 72, 94, 110, 145, 120],
+                        label: 'Chat Sessions',
+                        data: [],
                         backgroundColor: primaryColor,
                         borderRadius: 4
                     }]
@@ -155,20 +155,19 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { grid: { display: false } },
-                        y: { border: { dash: [4, 4] } }
+                        y: { border: { dash: [4, 4] }, beginAtZero: true }
                     }
                 }
             });
 
-            // Line Chart Config
             const lineCtx = document.getElementById('lineChart').getContext('2d');
-            new Chart(lineCtx, {
+            const lineChart = new Chart(lineCtx, {
                 type: 'line',
                 data: {
-                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    labels: [],
                     datasets: [{
                         label: 'Messages',
-                        data: [3200, 3800, 3500, 4100],
+                        data: [],
                         borderColor: secondaryColor,
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
                         borderWidth: 3,
@@ -181,10 +180,31 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { grid: { display: false } },
-                        y: { border: { dash: [4, 4] } }
+                        y: { border: { dash: [4, 4] }, beginAtZero: true }
                     }
                 }
             });
+
+            // Fetch real data from backend
+            fetch('/admin-api/dashboard-data/')
+                .then(res => res.json())
+                .then(data => {
+                    // Update KPIs
+                    document.getElementById('totalUsers').innerText = data.users;
+                    document.getElementById('sessionCount').innerText = data.sessions;
+                    document.getElementById('msgCount').innerText = data.messages;
+                    
+                    // Update Bar Chart
+                    barChart.data.labels = data.bar_labels;
+                    barChart.data.datasets[0].data = data.bar_data;
+                    barChart.update();
+                    
+                    // Update Line Chart
+                    lineChart.data.labels = data.line_labels;
+                    lineChart.data.datasets[0].data = data.line_data;
+                    lineChart.update();
+                })
+                .catch(err => console.error("Error fetching dashboard data:", err));
 
             // Leaflet Map Config
             // Fix icon path issues in some environments

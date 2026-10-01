@@ -1016,3 +1016,49 @@ def login_user(request):
 def logout_user(request):
     auth_logout(request)
     return redirect("/login/")
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Count
+from django.db.models.functions import TruncDay
+
+@staff_member_required
+def dashboard_data(request):
+    total_users = User.objects.count()
+    total_sessions = ChatSession.objects.count()
+    total_messages = ChatMessage.objects.count()
+
+    # Last 7 days traffic (Sessions)
+    today = timezone.now().date()
+    last_7_days = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    
+    sessions_by_day = ChatSession.objects.filter(created_at__date__gte=last_7_days[0]) \
+        .annotate(day=TruncDay('created_at')) \
+        .values('day') \
+        .annotate(count=Count('id')) \
+        .values('day', 'count')
+    
+    session_dict = {item['day'].date(): item['count'] for item in sessions_by_day if item['day']}
+    bar_labels = [d.strftime('%a') for d in last_7_days]
+    bar_data = [session_dict.get(d, 0) for d in last_7_days]
+
+    # Messages over last 7 days (Line chart)
+    messages_by_day = ChatMessage.objects.filter(timestamp__date__gte=last_7_days[0]) \
+        .annotate(day=TruncDay('timestamp')) \
+        .values('day') \
+        .annotate(count=Count('id')) \
+        .values('day', 'count')
+        
+    msg_dict = {item['day'].date(): item['count'] for item in messages_by_day if item['day']}
+    line_data = [msg_dict.get(d, 0) for d in last_7_days]
+
+    return JsonResponse({
+        'users': total_users,
+        'sessions': total_sessions,
+        'messages': total_messages,
+        'bar_labels': bar_labels,
+        'bar_data': bar_data,
+        'line_labels': bar_labels,
+        'line_data': line_data
+    })
