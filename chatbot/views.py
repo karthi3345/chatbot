@@ -1,3 +1,6 @@
+﻿from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 import os
 import json
 import logging
@@ -153,7 +156,7 @@ def find_game_exact(query, games):
 # FORMAT GAME RESPONSE
 # =====================================================
 def format_game_reply(game):
-    unique = "\n".join([f"• {item}" for item in game.get("what_makes_it_unique", [])])
+    unique = "\n".join([f"â€¢ {item}" for item in game.get("what_makes_it_unique", [])])
     return f"""**{game.get('game_name')}**
 
 {game.get('description', '')}
@@ -241,7 +244,7 @@ def _chat_logic(request):
             for fp in famous_unsupported:
                 if fp in query:
                     return JsonResponse({
-                        "reply": f"Sorry, we do not currently offer games from {fp.title()}. Please check our casino section for our available providers like Evolution, Ezugi, and Winmatch! 🎰"
+                        "reply": f"Sorry, we do not currently offer games from {fp.title()}. Please check our casino section for our available providers like Evolution, Ezugi, and Winmatch! ðŸŽ°"
                     })
 
         if (" vs " in query or " and " in query or "compare" in query):
@@ -283,7 +286,7 @@ def _chat_logic(request):
                 top_games = rtp_games[:5]
                 
                 title_str = f"({provider.title()})" if provider else "(All Providers)"
-                reply_html = f"🎰 <b>Highest RTP Games {title_str}</b><br><br><ul>"
+                reply_html = f"ðŸŽ° <b>Highest RTP Games {title_str}</b><br><br><ul>"
                 for val, g in top_games:
                     reply_html += f"<li>{g['game_name']} - {g['rtp']}</li>"
                 reply_html += "</ul>"
@@ -326,7 +329,7 @@ def _chat_logic(request):
                 bottom_games = rtp_games[:5]
                 
                 title_str = f"({provider.title()})" if provider else "(All Providers)"
-                reply_html = f"🎰 <b>Lowest RTP Games {title_str}</b><br><br><ul>"
+                reply_html = f"ðŸŽ° <b>Lowest RTP Games {title_str}</b><br><br><ul>"
                 for val, g in bottom_games:
                     reply_html += f"<li>{g['game_name']} - {g['rtp']}</li>"
                 reply_html += "</ul>"
@@ -381,7 +384,7 @@ def _chat_logic(request):
                         return JsonResponse({
 
                             "reply":
-                            f"🎰 {game['game_name']}\n\n"
+                            f"ðŸŽ° {game['game_name']}\n\n"
                             f"RTP: {rtp}"
 
                         })
@@ -391,7 +394,7 @@ def _chat_logic(request):
                     return JsonResponse({
 
                         "reply":
-                        f"🎰 {game['game_name']}\n\n"
+                        f"ðŸŽ° {game['game_name']}\n\n"
                         "RTP information unavailable."
 
                     })
@@ -630,7 +633,7 @@ def _chat_logic(request):
         logger.exception(e)
         error_msg = str(e)
         if "429" in error_msg or "Too Many Requests" in error_msg:
-            friendly_msg = "The AI is currently experiencing high traffic. Please wait a few seconds and try again. ⏳"
+            friendly_msg = "The AI is currently experiencing high traffic. Please wait a few seconds and try again. â³"
             return JsonResponse({"error": friendly_msg}, status=429)
             
         return JsonResponse({
@@ -722,7 +725,7 @@ def cmp_2_games(request):
             unique2 = " ".join(str(x) for x in unique2)
 
         table_html = f"""
-        <h3>🎮 Game Comparison</h3>
+        <h3>ðŸŽ® Game Comparison</h3>
 
         <table border="1" cellpadding="8" cellspacing="0"
                style="border-collapse:collapse;width:100%;">
@@ -751,7 +754,7 @@ def cmp_2_games(request):
         print("COMPARISON GENERATED")
 
         return JsonResponse({
-            "reply": f"📊 Comparing the selected games for you... Please see the comparison table below 👇<br><br>{table_html}"
+            "reply": f"ðŸ“Š Comparing the selected games for you... Please see the comparison table below ðŸ‘‡<br><br>{table_html}"
         })
 
     except Exception as e:
@@ -767,7 +770,7 @@ def get_best_crash_game():
         "provider": "Aviatrix",
         "type": "Crash",
         "description": (
-            "🚀 Aviatrix is one of the most popular and highly recommended "
+            "ðŸš€ Aviatrix is one of the most popular and highly recommended "
             "crash games available. It offers exciting multiplier action "
             "and thrilling cashout moments."
         )
@@ -792,7 +795,7 @@ def best_crash_game_response():
     }
 
     table_html = f"""
-    <p><b>🚀 Aviatrix is one of the best and most popular crash games available.</b></p>
+    <p><b>ðŸš€ Aviatrix is one of the best and most popular crash games available.</b></p>
 
     <table border="1" cellpadding="8" cellspacing="0"
            style="border-collapse:collapse;width:100%;">
@@ -842,11 +845,11 @@ def best_crash_game_response():
 #BEST CRASH GAMES
 def best_crash_games(mode="best"):
      if mode == "top":
-        heading = "🏆 Here are some of the top crash games available on Spinix:"
+        heading = "ðŸ† Here are some of the top crash games available on Spinix:"
      elif mode == "popular":
-        heading = "🔥 Here are some of the most popular crash games available on Spinix:"
+        heading = "ðŸ”¥ Here are some of the most popular crash games available on Spinix:"
      else:
-        heading = "⭐ Here are some of the best crash games available on Spinix:"
+        heading = "â­ Here are some of the best crash games available on Spinix:"
 
 
         games=[
@@ -983,9 +986,9 @@ def chat(request):
         return response
     except Exception as e:
         return _chat_logic(request)
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
+
+
+
 
 def register_user(request):
     if request.method == "POST":
