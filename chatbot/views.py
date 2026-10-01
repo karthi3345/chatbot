@@ -955,6 +955,15 @@ from django.http import JsonResponse
 from .models import ChatSession, ChatMessage
 import json
 
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 @csrf_exempt
 @login_required(login_url='/login/')
 def chat(request):
@@ -969,9 +978,19 @@ def chat(request):
         
         chat_session, created = ChatSession.objects.get_or_create(session_id=session_key)
         
-        # Link session to user if logged in
+        # Link session to user and IP address
+        ip = get_client_ip(request)
+        changed = False
+        
         if request.user.is_authenticated and chat_session.user != request.user:
             chat_session.user = request.user
+            changed = True
+            
+        if chat_session.ip_address != ip:
+            chat_session.ip_address = ip
+            changed = True
+            
+        if changed:
             chat_session.save()
         
         # Save user message if not empty

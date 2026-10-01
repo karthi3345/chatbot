@@ -1,4 +1,4 @@
-from django.contrib import admin
+﻿from django.contrib import admin
 from django.contrib.sessions.models import Session
 from unfold.admin import ModelAdmin, TabularInline
 from .models import Visitor, ChatSession, ChatMessage
@@ -22,6 +22,8 @@ class ChatMessageInline(TabularInline):
 
 @admin.register(ChatSession)
 class ChatSessionAdmin(ModelAdmin):
-    list_display = ('session_id', 'created_at', 'updated_at')
-    search_fields = ('session_id',)
+    list_display = ('__str__', 'session_id', 'ip_address', 'created_at', 'updated_at')
+    search_fields = ('session_id', 'ip_address', 'user__username')
+    list_filter = ('created_at',)
     inlines = [ChatMessageInline]
+

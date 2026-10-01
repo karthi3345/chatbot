@@ -13,6 +13,7 @@ class Visitor(models.Model):
 class ChatSession(models.Model):
     session_id = models.CharField(max_length=255, unique=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -33,4 +34,5 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender} at {self.timestamp}"
+
 
