@@ -152,3 +152,9 @@ if os.getenv('VERCEL'):
     STATIC_URL = '/static/'
     # Vercel handles media differently, usually we skip local media in serverless
     MEDIA_ROOT = '/tmp/media'
+
+UNFOLD = {
+    "SITE_TITLE": "Spinix Admin",
+    "SITE_HEADER": "Spinix",
+    "SITE_URL": "/",
+}
