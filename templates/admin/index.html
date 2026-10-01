@@ -104,15 +104,49 @@
             </div>
         </div>
 
-        <div style="margin-top:2rem;">
-            <h2 style="font-size:1.25rem; font-weight:bold; color:#fff; margin-bottom:1rem;">Standard Django Modules</h2>
-            <div style="display:flex; flex-direction:column;">
-                {% include "unfold/helpers/app_list_default.html" %}
-            </div>
-        </div>
     </div>
-
     <script>
-{% endblock %}
+        document.addEventListener("DOMContentLoaded", function() {
+            const primaryColor = '#10B981';
+            const secondaryColor = '#8b5cf6';
+            const gridColor = '#374151';
+            const textColor = '#9CA3AF';
 
+            Chart.defaults.color = textColor;
+            Chart.defaults.scale.grid.color = gridColor;
+            Chart.defaults.scale.grid.borderColor = gridColor;
+
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            const barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ label: 'Chat Sessions', data: [], backgroundColor: primaryColor, borderRadius: 4 }] },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { border: { dash: [4, 4] }, beginAtZero: true } } }
+            });
+
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            const lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: { labels: [], datasets: [{ label: 'Messages', data: [], borderColor: secondaryColor, backgroundColor: 'rgba(139, 92, 246, 0.1)', borderWidth: 3, tension: 0.4, fill: true }] },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { border: { dash: [4, 4] }, beginAtZero: true } } }
+            });
+
+            fetch('/admin-api/dashboard-data/', { credentials: 'same-origin' })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('totalUsers').innerText = data.users;
+                    document.getElementById('sessionCount').innerText = data.sessions;
+                    document.getElementById('msgCount').innerText = data.messages;
+                    
+                    barChart.data.labels = data.bar_labels;
+                    barChart.data.datasets[0].data = data.bar_data;
+                    barChart.update();
+                    
+                    lineChart.data.labels = data.line_labels;
+                    lineChart.data.datasets[0].data = data.line_data;
+                    lineChart.update();
+                })
+                .catch(err => console.error("Error fetching dashboard data:", err));
+        });
+    </script>
+{% endblock %}
 
