@@ -175,7 +175,7 @@ def home(request):
 # =====================================================
 @csrf_exempt
 @require_POST
-def chat(request):
+def _chat_logic(request):
     try:
         data = json.loads(request.body)
 
@@ -947,3 +947,36 @@ def best_crash_games(mode="best"):
     "reply": table_html
 })
         
+from django.http import JsonResponse
+from .models import ChatSession, ChatMessage
+import json
+
+def chat(request):
+    try:
+        data = json.loads(request.body)
+        user_message = data.get("message", "").strip()
+        
+        # Ensure session exists
+        if not request.session.session_key:
+            request.session.create()
+        session_key = request.session.session_key
+        
+        chat_session, _ = ChatSession.objects.get_or_create(session_id=session_key)
+        
+        # Save user message if not empty
+        if user_message:
+            ChatMessage.objects.create(chat_session=chat_session, sender='user', message=user_message)
+
+        # Call original logic
+        response = _chat_logic(request)
+
+        # Extract bot reply and save
+        if response.status_code == 200:
+            res_data = json.loads(response.content)
+            bot_reply = res_data.get("reply", "")
+            if bot_reply:
+                ChatMessage.objects.create(chat_session=chat_session, sender='bot', message=bot_reply)
+
+        return response
+    except Exception as e:
+        return _chat_logic(request)
