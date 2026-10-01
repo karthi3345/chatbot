@@ -1,4 +1,4 @@
-{% extends 'admin/base.html' %}
+﻿{% extends 'admin/base.html' %}
 {% load i18n %}
 
 {% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
@@ -8,11 +8,9 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Include Chart.js & Leaflet for Maps -->
+    <!-- Include Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+        
     <style>
         /* Force styles since custom Tailwind classes might be purged by Unfold */
         .dash-card {
@@ -92,28 +90,17 @@
             </div>
         </div>
 
-        <div class="dash-row">
-            <!-- Charts Section -->
-            <div class="dash-col-2" style="display:flex; flex-direction:column; gap:2rem;">
-                <!-- Bar Chart -->
-                <div class="dash-card">
-                    <h2 class="dash-title" style="font-size:1.125rem; color:#fff !important; margin-bottom:1rem;">Weekly Traffic</h2>
-                    <canvas id="barChart" height="100"></canvas>
-                </div>
-                
-                <!-- Line Graph -->
-                <div class="dash-card">
-                    <h2 class="dash-title" style="font-size:1.125rem; color:#fff !important; margin-bottom:1rem;">User Engagement Trend</h2>
-                    <canvas id="lineChart" height="100"></canvas>
-                </div>
+        <div class="dash-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <!-- Bar Chart -->
+            <div class="dash-card">
+                <h2 class="dash-title" style="font-size:1.125rem; color:#fff !important; margin-bottom:1rem;">Weekly Traffic</h2>
+                <canvas id="barChart" height="200"></canvas>
             </div>
-
-            <!-- Map Section -->
-            <div class="dash-col-1">
-                <div class="dash-card" style="height: 100%;">
-                    <h2 class="dash-title" style="font-size:1.125rem; color:#fff !important; margin-bottom:1rem;">Live User Activity</h2>
-                    <div id="map"></div>
-                </div>
+            
+            <!-- Line Graph -->
+            <div class="dash-card">
+                <h2 class="dash-title" style="font-size:1.125rem; color:#fff !important; margin-bottom:1rem;">User Engagement Trend</h2>
+                <canvas id="lineChart" height="200"></canvas>
             </div>
         </div>
 
@@ -126,119 +113,6 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Colors for dark theme
-            const primaryColor = '#10B981'; // Emerald
-            const secondaryColor = '#8b5cf6'; // Violet
-            const gridColor = '#374151'; // Gray-700
-            const textColor = '#9CA3AF'; // Gray-400
-
-            Chart.defaults.color = textColor;
-            Chart.defaults.scale.grid.color = gridColor;
-            Chart.defaults.scale.grid.borderColor = gridColor;
-
-            // Initialize Charts with empty data
-            const barCtx = document.getElementById('barChart').getContext('2d');
-            const barChart = new Chart(barCtx, {
-                type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Chat Sessions',
-                        data: [],
-                        backgroundColor: primaryColor,
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { display: false } },
-                        y: { border: { dash: [4, 4] }, beginAtZero: true }
-                    }
-                }
-            });
-
-            const lineCtx = document.getElementById('lineChart').getContext('2d');
-            const lineChart = new Chart(lineCtx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Messages',
-                        data: [],
-                        borderColor: secondaryColor,
-                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { display: false } },
-                        y: { border: { dash: [4, 4] }, beginAtZero: true }
-                    }
-                }
-            });
-
-            // Fetch real data from backend
-            fetch('/admin-api/dashboard-data/')
-                .then(res => res.json())
-                .then(data => {
-                    // Update KPIs
-                    document.getElementById('totalUsers').innerText = data.users;
-                    document.getElementById('sessionCount').innerText = data.sessions;
-                    document.getElementById('msgCount').innerText = data.messages;
-                    
-                    // Update Bar Chart
-                    barChart.data.labels = data.bar_labels;
-                    barChart.data.datasets[0].data = data.bar_data;
-                    barChart.update();
-                    
-                    // Update Line Chart
-                    lineChart.data.labels = data.line_labels;
-                    lineChart.data.datasets[0].data = data.line_data;
-                    lineChart.update();
-                })
-                .catch(err => console.error("Error fetching dashboard data:", err));
-
-            // Leaflet Map Config
-            // Fix icon path issues in some environments
-            delete L.Icon.Default.prototype._getIconUrl;
-            L.Icon.Default.mergeOptions({
-              iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-              iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-            });
-
-            const map = L.map('map').setView([20.5937, 78.9629], 4);
-            
-            // Dark theme map tiles (CartoDB Dark Matter)
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; OpenStreetMap &copy; CARTO'
-            }).addTo(map);
-
-            const locations = [
-                [19.0760, 72.8777], [28.7041, 77.1025], [12.9716, 77.5946], 
-                [13.0827, 80.2707], [22.5726, 88.3639], [17.3850, 78.4867]
-            ];
-
-            locations.forEach(loc => {
-                L.circleMarker(loc, {
-                    color: primaryColor,
-                    fillColor: primaryColor,
-                    fillOpacity: 0.7,
-                    radius: 8,
-                    weight: 2
-                }).addTo(map).bindPopup('Active User session');
-            });
-            
-            // Ensure map resizes correctly
-            setTimeout(() => { map.invalidateSize(); }, 500);
-        });
-    </script>
 {% endblock %}
+
+
