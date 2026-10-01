@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Winmatch AI — Smart Betting Assistant</title>
+<title>Winmatch AI â€” Smart Betting Assistant</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -312,31 +312,32 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="#06250f" stroke-width="2"><circle cx="12" cy="13" r="6"/><path d="M12 7V4M9 13h.01M15 13h.01M9 16h6"/></svg>
       </div>
       <div>
-        <div class="ch-title">Winmatch AI <span style="color:var(--yellow)">✦</span></div>
+        <div class="ch-title">Winmatch AI <span style="color:var(--yellow)">âœ¦</span></div>
         <div class="ch-sub">Your smart betting assistant</div>
       </div>
       <div style="margin-left:auto; display:flex; gap:10px; align-items:center;"><span style="color:var(--muted); font-size:13px;">Logged in as <b>{{ request.user.username }}</b></span><a href="/logout/" class="delete-chat-btn" style="text-decoration:none;"><span>Logout</span></a><button class="delete-chat-btn" id="deleteChatBtn" title="Delete chat">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2L4 6"/><path d="M10 11v6M14 11v6"/></svg>
         <span>Delete chat</span>
-      </button>
-    </div>
+        </button>
+        </div>
+      </div>
 
     <div class="chat-body" id="chatBody">
       <div class="welcome-row">
         <div class="wtext">
-          <h3>👋 Hi Karthik!</h3>
+          <h3>ðŸ‘‹ Hi Karthik!</h3>
           <p>Welcome to Winmatch! I can help you with betting, games, offers, rules, deposits and more. How can I assist you today?</p>
         </div>
         
       </div>
 
       <div class="popular-card">
-        <div class="pc-head">⭐ Popular Questions</div>
+        <div class="pc-head">â­ Popular Questions</div>
         <div class="popular-grid">
-          <button class="pq-btn" data-q="How do I place a bet?"><span class="pq-left"><span class="dot">⚽</span>How do I place a bet?</span> ›</button>
-          <button class="pq-btn" data-q="What is Cash Out?"><span class="pq-left"><span class="dot">↺</span>What is Cash Out?</span> ›</button>
-          <button class="pq-btn" data-q="Explain Match Odds"><span class="pq-left"><span class="dot">i</span>Explain Match Odds</span> ›</button>
-          <button class="pq-btn" data-q="Today's Promotions"><span class="pq-left"><span class="dot">i</span>Today's Promotions</span> ›</button>
+          <button class="pq-btn" data-q="How do I place a bet?"><span class="pq-left"><span class="dot">âš½</span>How do I place a bet?</span> â€º</button>
+          <button class="pq-btn" data-q="What is Cash Out?"><span class="pq-left"><span class="dot">â†º</span>What is Cash Out?</span> â€º</button>
+          <button class="pq-btn" data-q="Explain Match Odds"><span class="pq-left"><span class="dot">i</span>Explain Match Odds</span> â€º</button>
+          <button class="pq-btn" data-q="Today's Promotions"><span class="pq-left"><span class="dot">i</span>Today's Promotions</span> â€º</button>
         </div>
       </div>
       <!-- messages get appended below -->
@@ -359,10 +360,10 @@
         </button>
       </div>
       <div class="quick-chip-row">
-        <div class="chip">💼 Deposit Help</div>
-        <div class="chip">🏷️ Live Odds</div>
-        <div class="chip">🧩 Bet Builder</div>
-        <div class="chip">💱 Cash Out</div>
+        <div class="chip">ðŸ’¼ Deposit Help</div>
+        <div class="chip">ðŸ·ï¸ Live Odds</div>
+        <div class="chip">ðŸ§© Bet Builder</div>
+        <div class="chip">ðŸ’± Cash Out</div>
       </div>
     </div>
     <div class="spinix-disclaimer">18+ Play responsibly. Winmatch supports responsible gaming. T&amp;C Apply.</div>
@@ -386,7 +387,7 @@
     let text = element.dataset.content;
     if (!text) {
       const bubble = element.querySelector('.bubble');
-      text = bubble ? bubble.innerText.replace(timeNow() + ' ✓✓', '').replace(timeNow(), '').trim() : '';
+      text = bubble ? bubble.innerText.replace(timeNow() + ' âœ“âœ“', '').replace(timeNow(), '').trim() : '';
     }
     if (!text) return;
     pendingReply = text.replace(/<[^>]*>?/gm, '');
@@ -394,7 +395,7 @@
     replyPreview.innerHTML = `
       <div class="file-ic" style="background:transparent;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l5-5v3h8a4 4 0 014 4v5h-2v-5a2 2 0 00-2-2H8v3l-5-5z"/></svg></div>
       <div class="file-info"><span class="file-name" style="color:var(--muted)">Replying to: ${pendingReply.substring(0, 40)}...</span></div>
-      <button class="file-remove" onclick="clearReply()">✕</button>
+      <button class="file-remove" onclick="clearReply()">âœ•</button>
     `;
     chatInput.focus();
   }
@@ -428,7 +429,7 @@
     
     const attHtml = attachment ? renderAttachment(attachment, 'msg-attachment') : '';
     row.innerHTML = `
-      <div class="bubble">${quotedHtml}${attHtml}${text ? text : ''}<span class="ts">${timeNow()} ✓✓</span></div>
+      <div class="bubble">${quotedHtml}${attHtml}${text ? text : ''}<span class="ts">${timeNow()} âœ“âœ“</span></div>
       <button class="reply-btn" onclick="setReply(this.parentElement)">${replyIconSvg}</button>
     `;
     chatBody.appendChild(row);
@@ -477,7 +478,7 @@
     return `<div class="${cls}">${icon}<span>${att.name}</span></div>`;
   }
 
-  // ✅ API-based chat function
+  // âœ… API-based chat function
   async function handleQuestion(q, attachment, replyText) {
     if (!q && !attachment) return;
     
@@ -491,10 +492,10 @@
     
     if (attachment && !q) {
       const ocrNote = attachment.ocrText
-        ? ` I found this text in it: "${attachment.ocrText.slice(0,140)}${attachment.ocrText.length > 140 ? '…' : ''}"`
+        ? ` I found this text in it: "${attachment.ocrText.slice(0,140)}${attachment.ocrText.length > 140 ? 'â€¦' : ''}"`
         : '';
       setTimeout(() => addBotMessage(
-        `Got your file — <b>${attachment.name}</b>.${ocrNote} For document help, please contact our support team. 💬`
+        `Got your file â€” <b>${attachment.name}</b>.${ocrNote} For document help, please contact our support team. ðŸ’¬`
       ), 650);
       return;
     }
@@ -513,14 +514,14 @@
       const data = await response.json();
       
       if (data.error) {
-        addBotMessage(`⚠️ ${data.error}`);
+        addBotMessage(`âš ï¸ ${data.error}`);
       } else {
         addBotMessage(data.reply);
       }
       
     } catch (error) {
       console.error("Chat error:", error);
-      addBotMessage("Sorry, something went wrong. Please try again. 🔄");
+      addBotMessage("Sorry, something went wrong. Please try again. ðŸ”„");
     }
   }
 
@@ -529,7 +530,7 @@
     btn.addEventListener('click', () => handleQuestion(btn.dataset.q, null, null));
   });
 
-  // ✅ Speech-to-text via Web Speech API
+  // âœ… Speech-to-text via Web Speech API
   const micBtn = document.getElementById('micBtn');
   const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognizer = null;
@@ -553,7 +554,7 @@
     recognizer.onstart = () => {
       micBaseValue = chatInput.value.trim();
       micFinalTranscript = '';
-      chatInput.placeholder = '🎙️ Listening... speak now';
+      chatInput.placeholder = 'ðŸŽ™ï¸ Listening... speak now';
       // safety auto-stop so it never feels "stuck"
       micTimeoutId = setTimeout(() => { try{ recognizer.stop(); }catch(e){} }, 15000);
     };
@@ -575,7 +576,7 @@
   micBtn.addEventListener('click', () => {
     if (!recognizer) {
       addBotTyping();
-      setTimeout(() => addBotMessage("🎙️ Voice input isn't supported in this browser. Try Chrome on desktop or Android."), 400);
+      setTimeout(() => addBotMessage("ðŸŽ™ï¸ Voice input isn't supported in this browser. Try Chrome on desktop or Android."), 400);
       return;
     }
     if (micBtn.classList.contains('listening')) {
@@ -607,9 +608,9 @@
         ${isImage ? `<img src="${pendingAttachment.dataUrl}" alt="${file.name}">` : `<div class="file-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>`}
         <div class="file-info">
           <span class="file-name">${file.name}</span>
-          ${isImage ? `<span class="ocr-status" id="ocrStatus">🔍 Reading text in image...</span>` : ``}
+          ${isImage ? `<span class="ocr-status" id="ocrStatus">ðŸ” Reading text in image...</span>` : ``}
         </div>
-        <button class="file-remove" id="removeAttachBtn">✕</button>
+        <button class="file-remove" id="removeAttachBtn">âœ•</button>
       `;
       document.getElementById('removeAttachBtn').addEventListener('click', clearAttachment);
       if(isImage) extractTextFromImage(file, document.getElementById('ocrStatus'));
@@ -617,7 +618,7 @@
     if(isImage) reader.readAsDataURL(file); else reader.onload({target:{result:null}});
   });
 
-  // ✅ OCR: lazy-load Tesseract.js, then extract text from the attached image
+  // âœ… OCR: lazy-load Tesseract.js, then extract text from the attached image
   let tesseractLoading = null;
   function loadTesseract(){
     if (window.Tesseract) return Promise.resolve();
@@ -641,7 +642,7 @@
       if(!document.body.contains(statusEl)) return; // attachment removed before OCR finished
       if(clean){
         statusEl.classList.remove('dim');
-        statusEl.textContent = `📝 "${clean.slice(0,60)}${clean.length > 60 ? '…' : ''}"`;
+        statusEl.textContent = `ðŸ“ "${clean.slice(0,60)}${clean.length > 60 ? 'â€¦' : ''}"`;
         if(pendingAttachment) pendingAttachment.ocrText = clean;
       } else {
         statusEl.classList.add('dim');
@@ -697,3 +698,5 @@
 </script>
 </body>
 </html>
+
+
