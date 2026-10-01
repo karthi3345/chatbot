@@ -951,6 +951,7 @@ from django.http import JsonResponse
 from .models import ChatSession, ChatMessage
 import json
 
+@csrf_exempt
 def chat(request):
     try:
         data = json.loads(request.body)
