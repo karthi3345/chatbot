@@ -967,7 +967,12 @@ def chat(request):
             request.session.create()
         session_key = request.session.session_key
         
-        chat_session, _ = ChatSession.objects.get_or_create(session_id=session_key)
+        chat_session, created = ChatSession.objects.get_or_create(session_id=session_key)
+        
+        # Link session to user if logged in
+        if request.user.is_authenticated and chat_session.user != request.user:
+            chat_session.user = request.user
+            chat_session.save()
         
         # Save user message if not empty
         if user_message:
@@ -1062,3 +1067,5 @@ def dashboard_data(request):
         'line_labels': bar_labels,
         'line_data': line_data
     })
+
+
