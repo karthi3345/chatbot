@@ -4,3 +4,5 @@ requests
 gunicorn
 whitenoise
 chromadb==1.5.9
+dj-database-url
+psycopg2-binary
